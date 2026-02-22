@@ -1,0 +1,2548 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FF6B6B" id="theme-meta">
+<meta name="mobile-web-app-capable" content="true">
+<meta name="apple-mobile-web-app-capable" content="true">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PlnX">
+<link rel="manifest" href="/PlnX/manifest.json">
+<title>PlnX</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════
+   PlnX · Apple Health–Inspired Design System
+   Figtree + DM Sans · Warm Neutrals · Coral Accent
+   Same family as TrnX · BPKIHS VI Sem 2023
+══════════════════════════════════════════════════════ */
+
+@keyframes fadeUp    { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+@keyframes shimmer   { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.45} }
+@keyframes slideUp   { from{transform:translateY(100%)} to{transform:translateY(0)} }
+@keyframes ringFill  { from{stroke-dashoffset:691} to{stroke-dashoffset:var(--dash-end,0)} }
+
+:root {
+  --accent:      #FF6B6B;
+  --accent-deep: #E84040;
+  --accent-soft: rgba(255,107,107,.12);
+  --accent-glow: rgba(255,107,107,.30);
+  --green:       #30D158;
+  --blue:        #0A84FF;
+  --amber:       #FFD60A;
+  --teal:        #5AC8FA;
+  --purple:      #BF5AF2;
+  --spring:      cubic-bezier(.32,.72,0,1);
+  --ease:        cubic-bezier(.4,0,.2,1);
+  --bounce:      cubic-bezier(.34,1.56,.64,1);
+  --r-sm:  10px;
+  --r-md:  16px;
+  --r-lg:  22px;
+  --r-xl:  28px;
+}
+
+[data-theme="dark"] {
+  --bg:        #000000;
+  --bg2:       #0C0C0E;
+  --bg3:       #111115;
+  --card:      #1C1C1E;
+  --card2:     #242428;
+  --card3:     #2C2C30;
+  --border:    rgba(255,255,255,.08);
+  --border2:   rgba(255,255,255,.14);
+  --border3:   rgba(255,255,255,.05);
+  --text:      #FFFFFF;
+  --text2:     rgba(255,255,255,.70);
+  --text3:     rgba(255,255,255,.40);
+  --text4:     rgba(255,255,255,.18);
+  --fill:      rgba(255,255,255,.06);
+  --fill2:     rgba(255,255,255,.10);
+  --fill3:     rgba(255,255,255,.04);
+  --nav-bg:    rgba(10,10,14,.92);
+  --header-bg: rgba(0,0,0,.85);
+  --sheet-bg:  #1C1C1E;
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.85);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,.5);
+}
+
+[data-theme="light"] {
+  --bg:        #F2F2F7;
+  --bg2:       #FFFFFF;
+  --bg3:       #F9F9FB;
+  --card:      #FFFFFF;
+  --card2:     #F2F2F7;
+  --card3:     #E5E5EA;
+  --border:    rgba(0,0,0,.07);
+  --border2:   rgba(0,0,0,.12);
+  --border3:   rgba(0,0,0,.04);
+  --text:      #000000;
+  --text2:     rgba(0,0,0,.65);
+  --text3:     rgba(0,0,0,.40);
+  --text4:     rgba(0,0,0,.18);
+  --fill:      rgba(0,0,0,.04);
+  --fill2:     rgba(0,0,0,.08);
+  --fill3:     rgba(0,0,0,.02);
+  --nav-bg:    rgba(242,242,247,.92);
+  --header-bg: rgba(242,242,247,.85);
+  --sheet-bg:  #F2F2F7;
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.12);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,.07);
+}
+
+*,*::before,*::after { box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent }
+html,body {
+  width:100%;max-width:430px;margin:0 auto;height:100%;overflow:hidden;
+  background:var(--bg);
+  font-family:'Figtree','DM Sans',-apple-system,sans-serif;
+  color:var(--text);-webkit-font-smoothing:antialiased;
+}
+#app { display:flex;flex-direction:column;height:100dvh;overflow:hidden;position:relative }
+
+/* ── PAGES ── */
+.page {
+  display:none;flex-direction:column;flex:1;
+  overflow-y:auto;overflow-x:hidden;
+  padding-bottom:calc(90px + env(safe-area-inset-bottom,0px));
+  scrollbar-width:none;
+}
+.page::-webkit-scrollbar { display:none }
+.page.active { display:flex }
+.page.active .anim-row { animation:fadeUp .4s var(--ease) both }
+.page.active .anim-row:nth-child(1) { animation-delay:.03s }
+.page.active .anim-row:nth-child(2) { animation-delay:.07s }
+.page.active .anim-row:nth-child(3) { animation-delay:.11s }
+.page.active .anim-row:nth-child(4) { animation-delay:.15s }
+.page.active .anim-row:nth-child(5) { animation-delay:.19s }
+
+/* ── NAV BAR ── */
+nav {
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;
+  height:calc(60px + env(safe-area-inset-bottom,0px));
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--nav-bg);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;z-index:200;
+}
+.nav-btn {
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;height:60px;
+  background:none;border:none;cursor:pointer;
+  color:var(--text3);transition:color .2s var(--ease),transform .15s var(--bounce);
+  padding:8px 0 4px;
+}
+.nav-btn:active { transform:scale(.88) }
+.nav-btn.active { color:var(--accent) }
+.nav-btn svg { width:22px;height:22px;stroke-width:1.6 }
+.nav-btn span { font-size:9.5px;font-weight:600;letter-spacing:.2px }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding:calc(16px + env(safe-area-inset-top,0px)) 20px 14px;
+  display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;
+  background:var(--header-bg);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border);
+}
+.page-title { font-size:30px;font-weight:800;letter-spacing:-.8px;color:var(--text);line-height:1 }
+.page-title-sub { font-size:12px;font-weight:400;color:var(--text3);margin-top:2px;letter-spacing:.1px }
+
+.plnx-logo { font-size:22px;font-weight:800;letter-spacing:-.6px;color:var(--text) }
+.plnx-logo span { color:var(--accent) }
+
+/* ── SECTION LABEL ── */
+.sec-lbl {
+  font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--text3);padding:20px 20px 8px;
+}
+
+/* ── CARD ── */
+.card { background:var(--card);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border3); }
+.card-mx { margin:0 16px }
+.card-mb { margin-bottom:8px }
+.card-pad { padding:16px }
+
+/* ── DIVIDER ── */
+.divider { height:1px;background:var(--border);margin:0 }
+
+/* ── INPUT ── */
+.inp {
+  width:100%;background:var(--fill);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:12px 14px;color:var(--text);font-size:15px;outline:none;
+  font-family:'Figtree','DM Sans',sans-serif;-webkit-appearance:none;appearance:none;
+  transition:border-color .15s,background .15s;
+}
+.inp:focus { border-color:var(--accent);background:var(--fill2) }
+.inp::placeholder { color:var(--text4) }
+select.inp { cursor:pointer }
+
+/* ── BUTTON ── */
+.btn {
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:var(--r-md);cursor:pointer;font-family:'Figtree','DM Sans',sans-serif;
+  font-weight:700;transition:opacity .15s,transform .12s;font-size:15px;
+}
+.btn:active { opacity:.75;transform:scale(.97) }
+.btn-primary { background:var(--accent);color:#fff;padding:15px 20px;width:100%;border:none }
+.btn-ghost { background:var(--fill2);color:var(--text2);padding:13px 16px;border:1px solid var(--border) }
+.btn-danger { background:transparent;color:#FF453A;padding:13px 16px;border:1px solid rgba(255,69,58,.25) }
+.btn-sm { padding:8px 14px;font-size:13px }
+
+/* ── PILL ── */
+.pill {
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600;
+}
+.pill-accent { background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-glow) }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed;bottom:calc(88px + env(safe-area-inset-bottom,0px));left:50%;
+  transform:translateX(-50%) translateY(20px);z-index:9000;
+  background:var(--card2);color:var(--text);font-size:14px;font-weight:600;
+  padding:12px 20px;border-radius:var(--r-md);opacity:0;pointer-events:none;
+  box-shadow:var(--shadow-lg);white-space:nowrap;
+  transition:opacity .25s,transform .25s var(--spring);
+  border:1px solid var(--border2);
+}
+.toast.show { opacity:1;transform:translateX(-50%) translateY(0) }
+
+/* ── MODAL SHEET ── */
+.sheet-overlay {
+  position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:800;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.sheet-overlay.show { opacity:1;pointer-events:all }
+.sheet {
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);
+  width:100%;max-width:430px;z-index:900;
+  background:var(--sheet-bg);border-radius:var(--r-xl) var(--r-xl) 0 0;
+  border-top:1px solid var(--border2);
+  padding:0 0 calc(28px + env(safe-area-inset-bottom,0px));
+  transition:transform .38s var(--spring);
+  max-height:92dvh;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;
+}
+.sheet::-webkit-scrollbar { display:none }
+.sheet.show { transform:translateX(-50%) translateY(0) }
+.sheet-handle {
+  width:36px;height:5px;background:var(--border2);border-radius:50px;
+  margin:14px auto 20px;
+}
+.sheet-title {
+  font-size:17px;font-weight:800;padding:0 20px 16px;
+  letter-spacing:-.3px;border-bottom:1px solid var(--border);margin-bottom:8px;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 1 — TODAY (Day Planner)
+══════════════════════════════════════════════ */
+.planner-date-strip {
+  display:flex;gap:6px;overflow-x:auto;padding:12px 16px;
+  scrollbar-width:none;flex-shrink:0;
+}
+.planner-date-strip::-webkit-scrollbar { display:none }
+.date-chip {
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:9px 11px;border-radius:var(--r-md);min-width:46px;cursor:pointer;
+  background:var(--fill);transition:background .15s,color .15s;
+  border:1px solid var(--border);
+}
+.date-chip.today { background:var(--accent);color:#fff;border-color:var(--accent) }
+.date-chip.selected:not(.today) { border-color:var(--text2);background:var(--fill2) }
+.date-chip .day-name { font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text3) }
+.date-chip.today .day-name,.date-chip.selected .day-name { color:inherit;opacity:.8 }
+.date-chip .day-num { font-size:18px;font-weight:800;letter-spacing:-.5px }
+
+.planner-timeline { padding:0 16px;position:relative }
+.time-block { display:flex;gap:10px;min-height:64px;position:relative }
+.time-block:last-child .tb-line { display:none }
+.tb-time {
+  width:46px;flex-shrink:0;padding-top:13px;
+  font-size:11px;font-weight:500;color:var(--text3);text-align:right;
+}
+.tb-connector { display:flex;flex-direction:column;align-items:center;padding-top:17px;width:18px;flex-shrink:0 }
+.tb-dot { width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background .2s }
+.tb-line { width:1px;flex:1;background:var(--border);margin-top:4px }
+.tb-content { flex:1;padding:8px 0 }
+
+.event-block {
+  border-radius:var(--r-md);padding:12px 14px;margin-bottom:6px;cursor:pointer;
+  transition:transform .15s,opacity .15s;border-left:3px solid;
+  background:var(--fill3);border-top:1px solid var(--border);
+  border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  position:relative;
+}
+.event-block:active { transform:scale(.98);opacity:.85 }
+.event-title { font-size:14px;font-weight:700;letter-spacing:-.2px;line-height:1.3 }
+.event-meta { font-size:12px;font-weight:400;margin-top:3px;color:var(--text3) }
+.event-time-badge {
+  position:absolute;top:10px;right:12px;
+  font-size:11px;font-weight:500;color:var(--text3);
+}
+
+.now-indicator { display:flex;align-items:center;gap:8px;margin:4px 0 }
+.now-dot { width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;box-shadow:0 0 8px var(--accent-glow) }
+.now-line { flex:1;height:1px;background:var(--accent);opacity:.5 }
+.now-time { font-size:11px;font-weight:600;color:var(--accent);flex-shrink:0 }
+
+.add-event-btn {
+  position:fixed;bottom:calc(78px + env(safe-area-inset-bottom,0px));right:16px;
+  width:52px;height:52px;border-radius:var(--r-md);background:var(--accent);
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 24px var(--accent-glow);
+  transition:transform .2s var(--spring),box-shadow .2s;z-index:50;
+}
+.add-event-btn:active { transform:scale(.92) }
+.add-event-btn svg { width:20px;height:20px;color:#fff;stroke-width:2.5 }
+
+/* Today overview cards */
+.today-stats { display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 4px }
+.stat-card {
+  background:var(--card);border-radius:var(--r-lg);padding:16px;border:1px solid var(--border3);
+}
+.stat-val { font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1 }
+.stat-lbl { font-size:11px;font-weight:600;color:var(--text3);margin-top:6px;letter-spacing:.2px }
+
+/* ══════════════════════════════════════════════
+   PAGE 2 — TIMETABLE MAKER
+══════════════════════════════════════════════ */
+.week-header {
+  display:grid;grid-template-columns:48px repeat(6,1fr);gap:2px;
+  padding:0 12px 4px;flex-shrink:0;
+}
+.wh-day { text-align:center;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;padding:4px 0 }
+.wh-today { color:var(--accent) }
+
+.timetable-grid { padding:0 12px;overflow-y:auto;flex:1 }
+.timetable-row { display:grid;grid-template-columns:48px repeat(6,1fr);gap:2px;min-height:48px }
+.tt-time { display:flex;align-items:flex-start;padding-top:6px;justify-content:flex-end;padding-right:8px }
+.tt-time span { font-size:10px;font-weight:500;color:var(--text4) }
+.tt-cell {
+  background:var(--fill3);border-radius:var(--r-sm);cursor:pointer;min-height:48px;padding:3px;
+  border:1px solid var(--border);transition:background .15s;
+}
+.tt-cell:active { background:var(--fill2) }
+.tt-class-chip { border-radius:8px;padding:4px 5px;height:100%;display:flex;flex-direction:column;justify-content:center;gap:1px }
+.cc-subject { font-size:8.5px;font-weight:700;letter-spacing:.1px }
+.cc-type { font-size:7.5px;color:var(--text3);font-weight:500 }
+
+/* Subject color classes */
+.bg-med    { background:rgba(255,107,107,.08)!important }
+.bg-surg   { background:rgba(80,220,255,.08)!important }
+.bg-paed   { background:rgba(80,200,130,.08)!important }
+.bg-og     { background:rgba(190,100,255,.08)!important }
+.bg-fm     { background:rgba(255,200,50,.08)!important }
+.bg-cm     { background:rgba(100,180,255,.08)!important }
+.bg-other  { background:var(--fill3)!important }
+.bc-med    { border-left-color:#FF6B6B!important }
+.bc-surg   { border-left-color:#50DCFF!important }
+.bc-paed   { border-left-color:#50C882!important }
+.bc-og     { border-left-color:#BE64FF!important }
+.bc-fm     { border-left-color:#FFC832!important }
+.bc-cm     { border-left-color:#64B4FF!important }
+.bc-other  { border-left-color:var(--border2)!important }
+
+/* Week/Month dash */
+.view-toggle { display:flex;gap:6px;padding:10px 16px;flex-shrink:0 }
+.vt-btn {
+  flex:1;padding:8px 0;border-radius:var(--r-sm);border:1px solid var(--border);
+  background:transparent;color:var(--text3);font-family:'Figtree',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.vt-btn.active { background:var(--accent);color:#fff;border-color:var(--accent) }
+
+.week-dash { padding:0 16px }
+.wd-day-row { margin-bottom:6px;border-radius:var(--r-lg);border:1px solid var(--border);background:var(--card);overflow:hidden }
+.wd-day-header { display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;transition:background .15s }
+.wd-day-header:active { background:var(--fill2) }
+.wd-day-name { font-size:14px;font-weight:700;letter-spacing:-.2px }
+.wd-day-name.is-today { color:var(--accent) }
+.wd-day-count { font-size:12px;color:var(--text3);font-weight:500 }
+.wd-events { display:none;border-top:1px solid var(--border) }
+.wd-events.open { display:block }
+.wd-event-row { display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border) }
+.wd-event-row:last-child { border-bottom:none }
+.wd-ev-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0 }
+.wd-ev-title { font-size:13px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.wd-ev-time { font-size:11px;color:var(--text3);font-weight:500;flex-shrink:0 }
+.wd-ev-type { font-size:11px;color:var(--text3);font-weight:500;flex-shrink:0 }
+
+.month-dash { padding:0 16px }
+.month-nav { display:flex;align-items:center;justify-content:space-between;padding:8px 0 12px }
+.month-nav-btn {
+  width:32px;height:32px;border-radius:var(--r-sm);border:1px solid var(--border);
+  background:var(--fill);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .15s;
+}
+.month-nav-btn:active { background:var(--fill2) }
+.month-nav-btn svg { width:14px;height:14px }
+.month-title { font-size:15px;font-weight:800;letter-spacing:-.3px }
+.month-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:3px }
+.mg-header { text-align:center;font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.3px;text-transform:uppercase;padding:4px 0 }
+.mg-day {
+  aspect-ratio:1;border-radius:var(--r-sm);border:1px solid var(--border);
+  background:var(--fill3);display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:4px 2px;cursor:pointer;transition:background .15s;position:relative;overflow:hidden;
+}
+.mg-day:active { background:var(--fill2) }
+.mg-day.empty { background:transparent;border-color:transparent;cursor:default }
+.mg-day.is-today { border-color:var(--accent);background:var(--accent-soft) }
+.mg-day.selected { border-color:var(--text);background:var(--text) }
+.mg-day.selected .mg-day-num { color:var(--bg) }
+.mg-day-num { font-size:11px;font-weight:700;line-height:1 }
+.mg-dots { display:flex;gap:1px;margin-top:3px;flex-wrap:wrap;justify-content:center }
+.mg-dot { width:4px;height:4px;border-radius:50% }
+.month-selected-day { margin-top:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px }
+.msd-title { font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;margin-bottom:10px }
+.msd-event { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border) }
+.msd-event:last-child { border-bottom:none }
+
+/* ══════════════════════════════════════════════
+   EXAM COUNTDOWN
+══════════════════════════════════════════════ */
+.exam-card {
+  margin:12px 16px 0;padding:18px 20px;border-radius:var(--r-lg);
+  background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.20);
+}
+.ec-label { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:6px }
+.ec-title { font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:10px }
+.ec-countdown { display:flex;gap:20px }
+.ec-unit { display:flex;flex-direction:column;align-items:center;gap:2px }
+.ec-num { font-size:26px;font-weight:800;letter-spacing:-1.2px;line-height:1;color:var(--text) }
+.ec-lbl { font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text3) }
+
+/* Semester banner */
+.semester-banner {
+  margin:12px 16px 0;padding:18px 20px;border-radius:var(--r-lg);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--card);border:1px solid var(--border3);
+}
+.sb-left { flex:1;min-width:0 }
+.sb-title { font-size:16px;font-weight:800;letter-spacing:-.3px }
+.sb-date { font-size:12px;color:var(--text3);margin-top:2px;font-weight:500 }
+.sb-days { font-size:32px;font-weight:800;letter-spacing:-1px;text-align:right;line-height:1;color:var(--accent) }
+.sb-days-lbl { font-size:11px;font-weight:600;color:var(--text3);text-align:right;margin-top:2px;text-transform:uppercase;letter-spacing:.3px }
+
+/* ══════════════════════════════════════════════
+   ROTATIONS
+══════════════════════════════════════════════ */
+.rotation-card {
+  background:var(--card);border:1px solid var(--border3);border-radius:var(--r-lg);
+  padding:16px;margin:0 16px 8px;cursor:pointer;transition:transform .15s;
+}
+.rotation-card:active { transform:scale(.99) }
+.rc-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px }
+.rc-dept { font-size:16px;font-weight:800;letter-spacing:-.3px }
+.rc-badge { font-size:12px;font-weight:600;color:var(--text3) }
+.rc-dates { font-size:13px;color:var(--text3);font-weight:500;margin-bottom:10px }
+.rc-progress { height:4px;background:var(--fill2);border-radius:50px;overflow:hidden;margin-bottom:10px }
+.rc-prog-fill { height:100%;background:var(--accent);border-radius:50px;transition:width .6s }
+.rc-stats { display:flex;gap:16px }
+.rc-stat { }
+.rc-stat-val { font-size:14px;font-weight:700;letter-spacing:-.2px }
+.rc-stat-lbl { font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;margin-top:1px }
+
+/* ══════════════════════════════════════════════
+   RESEARCH / RCT
+══════════════════════════════════════════════ */
+.rct-section { margin:0 16px 8px }
+.rct-info-card { background:var(--card);border:1px solid var(--border3);border-radius:var(--r-lg);padding:16px;margin-bottom:8px }
+.rct-info-row { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px }
+.rct-info-title { font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.4px;text-transform:uppercase;margin-bottom:10px }
+.rct-inp {
+  width:100%;background:var(--fill);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:10px 12px;color:var(--text);font-size:14px;outline:none;
+  font-family:'Figtree',sans-serif;-webkit-appearance:none;transition:border-color .15s;
+}
+.rct-inp:focus { border-color:var(--accent) }
+.rct-inp::placeholder { color:var(--text4);font-size:13px }
+
+.rct-progress-card { background:var(--card);border:1px solid var(--border3);border-radius:var(--r-lg);padding:16px;margin-bottom:8px }
+.rct-phases { margin-top:10px }
+.rct-phase-row { display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border) }
+.rct-phase-row:last-child { border-bottom:none }
+.rct-phase-check {
+  width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+  background:var(--fill);transition:all .2s;
+}
+.rct-phase-check.done { background:var(--accent);border-color:var(--accent) }
+.rct-phase-check svg { width:11px;height:11px;color:#fff;display:none }
+.rct-phase-check.done svg { display:block }
+.rct-phase-body { flex:1;min-width:0 }
+.rct-phase-name { font-size:13px;font-weight:600;letter-spacing:-.1px }
+.rct-phase-name.done-text { color:var(--text3);text-decoration:line-through }
+.rct-phase-sub { font-size:11px;color:var(--text3);margin-top:2px }
+.rct-phase-phase { font-size:10px;color:var(--text4);font-weight:600;flex-shrink:0;text-transform:uppercase;letter-spacing:.3px }
+
+.rct-overall-bar { margin-top:10px }
+.rct-bar-track { height:4px;background:var(--fill2);border-radius:50px;overflow:hidden }
+.rct-bar-fill { height:100%;background:var(--accent);border-radius:50px;transition:width .5s }
+.rct-bar-label { display:flex;justify-content:space-between;margin-top:6px;font-size:11px;font-weight:600;color:var(--text3) }
+
+/* ══════════════════════════════════════════════
+   SCHEDULE VIEW
+══════════════════════════════════════════════ */
+.sched-subtab-bar { display:flex;gap:6px;padding:10px 16px 4px;flex-shrink:0 }
+.sched-subtab {
+  flex:1;padding:9px 0;border-radius:var(--r-md);border:1px solid var(--border);
+  background:transparent;color:var(--text3);font-family:'Figtree',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.sched-subtab.active { background:var(--accent);color:#fff;border-color:var(--accent) }
+.sched-content-wrap { padding:0 16px }
+
+/* Session card */
+.sc-session { border-radius:var(--r-lg);background:var(--card);border:1px solid var(--border3);margin-bottom:6px;overflow:hidden;transition:border-color .2s }
+.sc-session:active { border-color:var(--border2) }
+.sc-session-row { display:flex;align-items:flex-start;gap:10px;padding:13px 15px;cursor:pointer }
+.sc-time { font-size:12px;font-weight:600;color:var(--text3);flex-shrink:0;padding-top:2px;min-width:40px }
+.sc-badge { font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:50px;border:1px solid;flex-shrink:0;margin-top:1px }
+.sc-body { flex:1;min-width:0 }
+.sc-title { font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-.1px }
+.sc-dept { font-size:11px;color:var(--text3);margin-top:3px;font-weight:500 }
+.sc-chevron { flex-shrink:0;width:16px;height:16px;color:var(--text4);transition:transform .2s;margin-top:2px }
+.sc-session.open .sc-chevron { transform:rotate(90deg) }
+.sc-detail { display:none;border-top:1px solid var(--border);padding:12px 15px;background:var(--fill3) }
+.sc-session.open .sc-detail { display:block }
+.sc-detail-text { font-size:13px;color:var(--text2);line-height:1.6 }
+
+/* Task items */
+.task-card { background:var(--card);border:1px solid var(--border3);border-radius:var(--r-lg);margin-bottom:8px;overflow:hidden }
+.task-card-header { padding:12px 15px 6px }
+.task-card-label { font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.3px;text-transform:uppercase;margin-bottom:8px }
+.task-item { display:flex;align-items:flex-start;gap:12px;padding:10px 15px;border-top:1px solid var(--border);cursor:pointer;transition:background .15s }
+.task-item:active { background:var(--fill2) }
+.task-checkbox {
+  width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:var(--fill);transition:all .2s;margin-top:1px;
+}
+.task-checkbox.done { background:var(--accent);border-color:var(--accent) }
+.task-checkbox svg { width:11px;height:11px;color:#fff;display:none }
+.task-checkbox.done svg { display:block }
+.task-label { font-size:14px;font-weight:500;line-height:1.4;flex:1;letter-spacing:-.1px }
+.task-label.done { color:var(--text3);text-decoration:line-through }
+
+/* Progress bar */
+.task-progress-row { display:flex;align-items:center;gap:12px;padding:10px 15px 12px }
+.task-prog-bar { flex:1;height:5px;background:var(--fill2);border-radius:50px;overflow:hidden }
+.task-prog-fill { height:100%;background:var(--accent);border-radius:50px;transition:width .4s var(--spring) }
+.task-prog-label { font-size:12px;font-weight:700;color:var(--text3);flex-shrink:0 }
+
+/* Special day banner */
+.sched-banner { background:var(--fill3);border:1px solid var(--border3);border-radius:var(--r-lg);padding:20px 18px;margin-bottom:8px;text-align:center }
+.sched-banner-icon { font-size:32px;margin-bottom:10px }
+.sched-banner-text { font-size:14px;font-weight:600;color:var(--text2);line-height:1.5 }
+
+/* ══════════════════════════════════════════════
+   FOCUS / POMODORO
+══════════════════════════════════════════════ */
+.focus-subject-select { padding:12px 16px 4px;flex-shrink:0 }
+.fss-label { font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:10px }
+.subject-chips { display:flex;gap:8px;flex-wrap:wrap }
+.subj-chip {
+  padding:7px 14px;border-radius:50px;font-size:13px;font-weight:600;
+  background:var(--fill);border:1px solid var(--border);color:var(--text3);cursor:pointer;
+  transition:all .18s var(--ease);-webkit-appearance:none;
+}
+.subj-chip.selected { color:#fff;border-color:transparent }
+
+.focus-config { display:flex;gap:8px;padding:10px 16px;flex-shrink:0 }
+.fc-config-card {
+  flex:1;padding:14px 8px;border-radius:var(--r-lg);border:2px solid var(--border);
+  background:var(--card);cursor:pointer;text-align:center;transition:border-color .2s,background .2s;
+}
+.fc-config-card.selected { border-color:var(--accent);background:var(--accent-soft) }
+.fcc-val { font-size:24px;font-weight:800;letter-spacing:-1px }
+.fcc-lbl { font-size:11px;font-weight:600;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:.4px }
+
+.focus-orb-container { display:flex;flex-direction:column;align-items:center;padding:16px 20px }
+.orb-wrapper {
+  width:220px;height:220px;border-radius:50%;cursor:pointer;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s var(--bounce);
+}
+.orb-wrapper:active { transform:scale(.96) }
+.orb-ring-svg { position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg) }
+.orb-ring-bg { fill:none;stroke:var(--fill2);stroke-width:6 }
+.orb-ring-fill {
+  fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:round;
+  stroke-dasharray:691;stroke-dashoffset:0;
+  transition:stroke-dashoffset .8s var(--ease);
+}
+.orb-glow {
+  position:absolute;inset:-12px;border-radius:50%;
+  background:radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity:0;transition:opacity .5s;pointer-events:none;
+}
+.orb-glow.break { background:radial-gradient(circle, rgba(48,209,88,.2) 0%, transparent 70%) }
+.focus-active .orb-glow { opacity:1 }
+.orb-inner { display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1 }
+.orb-time { font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1 }
+.orb-phase { font-size:13px;font-weight:600;color:var(--text3) }
+
+.focus-streak { display:flex;align-items:center;gap:6px;margin:12px 0 }
+.streak-dot { width:8px;height:8px;border-radius:50%;background:var(--fill2);border:1.5px solid var(--border2);transition:all .3s }
+.streak-dot.done { background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px var(--accent-glow) }
+.streak-dot.break-dot { width:4px;height:4px;background:var(--border);border:none }
+
+.focus-controls { display:flex;gap:10px;margin-top:8px }
+.fc-btn {
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 20px;border-radius:var(--r-lg);border:none;cursor:pointer;
+  font-family:'Figtree',sans-serif;font-size:15px;font-weight:700;
+  transition:opacity .15s,transform .12s;
+}
+.fc-btn:active { opacity:.75;transform:scale(.97) }
+.fc-start { background:var(--accent);color:#fff;flex:1 }
+.fc-stop { background:var(--fill2);color:var(--text2);border:1px solid var(--border) }
+.fc-skip { background:var(--fill2);color:var(--text2);border:1px solid var(--border) }
+
+.focus-log { padding:0 16px }
+.fl-row {
+  display:flex;align-items:center;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+.fl-row:last-child { border-bottom:none }
+.fl-dot { width:8px;height:8px;border-radius:50%;flex-shrink:0 }
+.fl-subject { font-size:14px;font-weight:600;flex:1;letter-spacing:-.1px }
+.fl-time { font-size:12px;color:var(--text3);font-weight:500 }
+.fl-dur { font-size:13px;font-weight:700;color:var(--accent);min-width:36px;text-align:right }
+
+/* ══════════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════════ */
+.settings-row {
+  display:flex;align-items:center;gap:14px;padding:14px 16px;
+  cursor:pointer;transition:background .15s;
+}
+.settings-row:active { background:var(--fill2) }
+.sr-icon {
+  width:34px;height:34px;border-radius:10px;background:var(--fill2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sr-icon svg { width:16px;height:16px;stroke-width:1.8;color:var(--accent) }
+.sr-body { flex:1;min-width:0 }
+.sr-title { font-size:15px;font-weight:600;letter-spacing:-.1px }
+.sr-sub { font-size:12px;color:var(--text3);font-weight:500;margin-top:2px }
+.sr-right { color:var(--text3) }
+.sr-right svg { width:16px;height:16px;stroke-width:2 }
+
+.toggle-wrap { flex-shrink:0;cursor:pointer }
+.toggle-wrap input { display:none }
+.toggle-slider {
+  width:44px;height:26px;border-radius:50px;background:var(--fill2);
+  border:1.5px solid var(--border2);position:relative;transition:background .2s;
+}
+.toggle-wrap input:checked + .toggle-slider { background:var(--accent);border-color:var(--accent) }
+.toggle-slider::after {
+  content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;
+  border-radius:50%;background:#fff;transition:transform .2s var(--spring);
+  box-shadow:0 2px 4px rgba(0,0,0,.3);
+}
+.toggle-wrap input:checked + .toggle-slider::after { transform:translateX(18px) }
+
+/* ══════════════════════════════════════════════
+   HEADER BUTTON
+══════════════════════════════════════════════ */
+.header-btn {
+  background:var(--fill2);border:1px solid var(--border);border-radius:var(--r-sm);
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text2);transition:background .15s,transform .12s;
+}
+.header-btn:active { transform:scale(.92);background:var(--fill2) }
+.header-btn svg { width:16px;height:16px;stroke-width:2 }
+
+/* ══════════════════════════════════════════════
+   EMPTY STATE
+══════════════════════════════════════════════ */
+.empty-state { display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:12px }
+.empty-state svg { width:36px;height:36px;color:var(--text4) }
+.empty-state p { font-size:14px;font-weight:500;color:var(--text3);text-align:center;line-height:1.5 }
+
+/* ══════════════════════════════════════════════
+   FORM
+══════════════════════════════════════════════ */
+.form-row { padding:8px 20px }
+.form-label { font-size:12px;font-weight:700;color:var(--text3);margin-bottom:8px;display:block;letter-spacing:.3px;text-transform:uppercase }
+
+/* Color dots (timetable) */
+.color-dots { display:flex;gap:8px;padding:4px 0 }
+.color-dot {
+  width:26px;height:26px;border-radius:8px;cursor:pointer;
+  border:2px solid transparent;transition:transform .15s,border-color .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.color-dot.selected { border-color:var(--text);transform:scale(1.12) }
+.color-dot svg { width:11px;height:11px;color:#fff;display:none }
+.color-dot.selected svg { display:flex }
+
+/* Animations */
+.fade-up { animation:fadeUp .3s var(--ease) both }
+.focus-active .orb-inner { opacity:.9 }
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══ PAGE: TODAY ══ -->
+<div class="page active" id="today-page">
+  <div class="page-header" id="today-header">
+    <div>
+      <div class="plnx-logo">Pln<span>X</span></div>
+      <div class="page-title-sub" id="today-date-label">Loading…</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="header-btn" onclick="openSheet('add-event-sheet')" aria-label="Add event">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="header-btn" onclick="toggleTheme()">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- View toggle -->
+  <div class="view-toggle">
+    <button class="vt-btn active" id="vt-day" onclick="switchView('day')">Day</button>
+    <button class="vt-btn" id="vt-week" onclick="switchView('week')">Week</button>
+    <button class="vt-btn" id="vt-month" onclick="switchView('month')">Month</button>
+  </div>
+
+  <!-- DAY VIEW -->
+  <div id="day-view">
+    <div class="planner-date-strip" id="date-strip"></div>
+    <div class="today-stats" id="today-stats">
+      <div class="stat-card">
+        <div class="stat-val" id="stat-events">0</div>
+        <div class="stat-lbl">Classes Today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-focus">0h</div>
+        <div class="stat-lbl">Focus Today</div>
+      </div>
+    </div>
+    <div class="exam-card" id="exam-countdown-card">
+      <div class="ec-label">⚠️ Internal Assessment</div>
+      <div class="ec-title">Starts 4th June, 2026</div>
+      <div class="ec-countdown" id="exam-countdown"></div>
+    </div>
+    <div class="sec-lbl">Schedule</div>
+    <div class="planner-timeline" id="planner-timeline"></div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- WEEK VIEW -->
+  <div id="week-view" style="display:none">
+    <div class="week-dash" id="week-dash-content"></div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- MONTH VIEW -->
+  <div id="month-view" style="display:none">
+    <div class="month-dash">
+      <div class="month-nav">
+        <button class="month-nav-btn" onclick="changeMonth(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="month-title" id="month-title"></div>
+        <button class="month-nav-btn" onclick="changeMonth(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div class="month-grid" id="month-grid"></div>
+      <div class="month-selected-day" id="month-selected-day"></div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+</div>
+
+<!-- ══ PAGE: TIMETABLE ══ -->
+<div class="page" id="timetable-page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Timetable</div>
+      <div class="page-title-sub">Drag & build your week</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="header-btn" onclick="openSheet('add-class-sheet')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="header-btn" onclick="clearWeekPrompt()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="week-header" id="week-header"></div>
+  <div class="timetable-grid" id="timetable-grid"></div>
+</div>
+
+<!-- ══ PAGE: ROTATIONS ══ -->
+<div class="page" id="rotations-page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Rotations</div>
+      <div class="page-title-sub">Clinical & posting schedule</div>
+    </div>
+    <button class="header-btn" onclick="openSheet('add-rotation-sheet')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+  </div>
+
+  <!-- Semester progress -->
+  <div class="semester-banner" style="background:var(--card);border:1px solid var(--border)">
+    <div class="sb-left">
+      <div class="sb-title">VI Semester · 2023 Batch</div>
+      <div class="sb-date">Jan 11 – Jun 2, 2026</div>
+      <div style="margin-top:8px;height:3px;background:var(--fill2);border-radius:2px;overflow:hidden">
+        <div id="sem-progress-bar" style="height:100%;background:var(--text);border-radius:0;transition:width .6s var(--ease)"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:5px;font-weight:600"><span id="sem-progress-pct">0%</span> complete</div>
+    </div>
+    <div style="text-align:right;flex-shrink:0;margin-left:16px">
+      <div class="sb-days" id="days-remaining">—</div>
+      <div class="sb-days-lbl">Days Left</div>
+    </div>
+  </div>
+
+  <!-- Exam countdown -->
+  <div class="exam-card" style="margin-top:10px">
+    <div class="ec-label">⚠️ Internal Assessment</div>
+    <div class="ec-title">Starts 4th June, 2026</div>
+    <div class="ec-countdown" id="exam-countdown-2"></div>
+  </div>
+
+  <div class="sec-lbl">Your Group Posting</div>
+  <div id="rotation-list" style="padding:0 0 8px"></div>
+
+  <div class="sec-lbl">Research Project · RCT</div>
+
+  <!-- Research Info Card -->
+  <div class="rct-section">
+    <div class="rct-info-card">
+      <div class="rct-info-title">Project Details</div>
+      <div style="margin-bottom:8px">
+        <input class="rct-inp" id="rct-title" placeholder="Research / Study Title (e.g. Effect of X on Y in Z)" oninput="saveResearchInfo()">
+      </div>
+      <div class="rct-info-row">
+        <div>
+          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-family:'Figtree',sans-serif">Moderator</div>
+          <input class="rct-inp" id="rct-moderator" placeholder="Dr. Name" oninput="saveResearchInfo()">
+        </div>
+        <div>
+          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-family:'Figtree',sans-serif">Tutor / Guide</div>
+          <input class="rct-inp" id="rct-tutor" placeholder="Dr. Name" oninput="saveResearchInfo()">
+        </div>
+      </div>
+      <div id="research-pill" class="pill" style="margin-top:10px"></div>
+    </div>
+
+    <!-- Progress Card -->
+    <div class="rct-progress-card">
+      <div class="rct-info-title" style="display:flex;align-items:center;justify-content:space-between">
+        RCT Timeline Checklist
+        <span id="rct-progress-label" style="font-size:9px;color:var(--text3)">0 / 0 done</span>
+      </div>
+      <div class="rct-overall-bar">
+        <div class="rct-bar-track"><div class="rct-bar-fill" id="rct-bar" style="width:0%"></div></div>
+        <div class="rct-bar-label"><span>Protocol</span><span id="rct-bar-pct">0%</span></div>
+      </div>
+      <div class="rct-phases" id="rct-checklist"></div>
+    </div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+
+<!-- ══ PAGE: SCHEDULE ══ -->
+<div class="page" id="schedule-page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Schedule</div>
+      <div class="page-title-sub">VI Semester · Jan–Jun 2026</div>
+    </div>
+  </div>
+  <div class="planner-date-strip" id="sched-date-strip"></div>
+  <div class="sched-subtab-bar">
+    <button class="sched-subtab active" id="sst-sis" onclick="switchSchedTab('sis')">📋 Daily SIS</button>
+    <button class="sched-subtab" id="sst-tasks" onclick="switchSchedTab('tasks')">✅ Study Tasks</button>
+  </div>
+  <div id="sched-sis-wrap" class="sched-content-wrap"></div>
+  <div id="sched-tasks-wrap" class="sched-content-wrap" style="display:none"></div>
+  <div style="height:24px"></div>
+</div>
+
+<!-- ══ PAGE: FOCUS ══ -->
+<div class="page" id="focus-page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Focus</div>
+      <div class="page-title-sub" id="focus-status-lbl">Ready to begin</div>
+    </div>
+    <button class="header-btn" onclick="openSheet('focus-log-sheet')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </button>
+  </div>
+
+  <!-- Subject selector -->
+  <div class="focus-subject-select">
+    <div class="fss-label">Studying</div>
+    <div class="subject-chips" id="subject-chips"></div>
+  </div>
+
+  <!-- Mode selector -->
+  <div class="focus-config" id="focus-config">
+    <div class="fc-config-card selected" onclick="selectMode(this,25,5)" data-work="25" data-break="5">
+      <div class="fcc-val">25</div>
+      <div class="fcc-lbl">Focus</div>
+    </div>
+    <div class="fc-config-card" onclick="selectMode(this,50,10)" data-work="50" data-break="10">
+      <div class="fcc-val">50</div>
+      <div class="fcc-lbl">Deep</div>
+    </div>
+    <div class="fc-config-card" onclick="selectMode(this,90,20)" data-work="90" data-break="20">
+      <div class="fcc-val">90</div>
+      <div class="fcc-lbl">Flow</div>
+    </div>
+  </div>
+
+  <!-- Orb -->
+  <div class="focus-orb-container">
+    <div class="orb-wrapper" id="orb-wrapper" onclick="toggleFocus()">
+      <svg class="orb-ring-svg" viewBox="0 0 240 240">
+        <circle class="orb-ring-bg" cx="120" cy="120" r="110"/>
+        <circle class="orb-ring-fill" id="orb-ring" cx="120" cy="120" r="110"/>
+      </svg>
+      <div class="orb-glow" id="orb-glow"></div>
+      <div class="orb-inner">
+        <div class="orb-time" id="orb-time">25:00</div>
+        <div class="orb-phase" id="orb-phase">Tap to begin</div>
+      </div>
+    </div>
+
+    <!-- Streak dots -->
+    <div class="focus-streak" id="focus-streak"></div>
+
+    <!-- Controls -->
+    <div class="focus-controls">
+      <button class="fc-btn fc-stop" id="fc-stop" onclick="stopFocus()" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg>
+        Stop
+      </button>
+      <button class="fc-btn fc-start" id="fc-main" onclick="toggleFocus()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Start Session
+      </button>
+      <button class="fc-btn fc-skip" id="fc-skip" onclick="skipPhase()" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 4 15 12 5 20"/><line x1="19" y1="4" x2="19" y2="20"/></svg>
+        Skip
+      </button>
+    </div>
+  </div>
+
+  <!-- Today's log -->
+  <div class="sec-lbl">Today's Sessions</div>
+  <div class="focus-log" id="focus-log-preview"></div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══ PAGE: SETTINGS ══ -->
+<div class="page" id="settings-page">
+  <div class="page-header">
+    <div><div class="page-title">Settings</div></div>
+  </div>
+
+  <div class="sec-lbl">Appearance</div>
+  <div class="card card-mx card-mb">
+    <div class="settings-row" onclick="toggleTheme()">
+      <div class="sr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
+      <div class="sr-body"><div class="sr-title">Appearance</div><div class="sr-sub" id="theme-label">Dark Mode</div></div>
+      <div class="sr-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="divider"></div>
+    <div class="settings-row">
+      <div class="sr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+      <div class="sr-body"><div class="sr-title">Sound & Haptics</div><div class="sr-sub">Timer end alert</div></div>
+      <label class="toggle-wrap"><input type="checkbox" id="sound-toggle" checked><div class="toggle-slider"></div></label>
+    </div>
+  </div>
+
+  <div class="sec-lbl">Data</div>
+  <div class="card card-mx card-mb">
+    <div class="settings-row" onclick="exportData()">
+      <div class="sr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+      <div class="sr-body"><div class="sr-title">Export Data</div><div class="sr-sub">Download JSON backup</div></div>
+      <div class="sr-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="divider"></div>
+    <div class="settings-row" onclick="clearAllData()">
+      <div class="sr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></div>
+      <div class="sr-body"><div class="sr-title">Clear All Data</div><div class="sr-sub">Cannot be undone</div></div>
+      <div class="sr-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+  </div>
+
+  <div class="sec-lbl">About</div>
+  <div class="card card-mx card-mb">
+    <div class="settings-row" style="cursor:default">
+      <div class="sr-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="0"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="sr-body"><div class="sr-title">PlnX</div><div class="sr-sub">Version 1.0 · BPKIHS VI Sem 2023</div></div>
+      <div class="sr-right" style="font-size:9px;font-weight:400;color:var(--text3)">v1.0</div>
+    </div>
+  </div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══ NAVIGATION ══ -->
+<nav>
+  <button class="nav-btn active" onclick="switchPage('today',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span>Today</span>
+  </button>
+  <button class="nav-btn" onclick="switchPage('schedule',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+    <span>Sched</span>
+  </button>
+  <button class="nav-btn" onclick="switchPage('rotations',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <span>Clinic</span>
+  </button>
+  <button class="nav-btn" onclick="switchPage('focus',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    <span>Focus</span>
+  </button>
+  <button class="nav-btn" onclick="switchPage('settings',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <span>More</span>
+  </button>
+</nav>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast"></div>
+
+<!-- ══ SHEET OVERLAY ══ -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheets()"></div>
+
+<!-- ══ ADD EVENT SHEET ══ -->
+<div class="sheet" id="add-event-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Add Event</div>
+  <div class="form-row"><label class="form-label">Title</label><input class="inp" id="ev-title" placeholder="e.g. SIS: Coronary Heart Disease" /></div>
+  <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><label class="form-label">Start</label><input class="inp" type="time" id="ev-start" value="08:00"/></div>
+    <div><label class="form-label">End</label><input class="inp" type="time" id="ev-end" value="09:00"/></div>
+  </div>
+  <div class="form-row"><label class="form-label">Subject</label>
+    <select class="inp" id="ev-subject">
+      <option value="med">Medicine</option>
+      <option value="surg">Surgery</option>
+      <option value="paed">Paediatrics</option>
+      <option value="og">Obs & Gynae</option>
+      <option value="fm">FM / Forensic</option>
+      <option value="cm">SPH & CM</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="form-row"><label class="form-label">Type</label>
+    <select class="inp" id="ev-type">
+      <option value="SIS">SIS (Structured Interactive Session)</option>
+      <option value="SGD">SGD (Small Group Discussion)</option>
+      <option value="CBL">CBL (Case Based Learning)</option>
+      <option value="LIF">LIF (Learning in Field)</option>
+      <option value="LABEX">LABEX (Lab Exercise)</option>
+      <option value="SEMINAR">Seminar</option>
+      <option value="PMD">PMD (Post Mortem Demo)</option>
+      <option value="SELF">Self Study</option>
+      <option value="OTHER">Other</option>
+    </select>
+  </div>
+  <div class="form-row"><label class="form-label">Location (optional)</label><input class="inp" id="ev-location" placeholder="e.g. LT-III, New Academic Block" /></div>
+  <div class="form-row">
+    <button class="btn btn-primary" onclick="saveEvent()">Add to Today</button>
+  </div>
+  <div class="form-row">
+    <button class="btn btn-ghost" onclick="closeSheets()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ ADD CLASS SHEET ══ -->
+<div class="sheet" id="add-class-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Add to Timetable</div>
+  <div class="form-row"><label class="form-label">Class / Subject</label><input class="inp" id="cls-title" placeholder="e.g. Medicine — SIS" /></div>
+  <div class="form-row"><label class="form-label">Day</label>
+    <select class="inp" id="cls-day">
+      <option value="0">Sunday</option>
+      <option value="1">Monday</option>
+      <option value="2">Tuesday</option>
+      <option value="3">Wednesday</option>
+      <option value="4">Thursday</option>
+      <option value="5">Friday</option>
+    </select>
+  </div>
+  <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><label class="form-label">Start</label><input class="inp" type="time" id="cls-start" value="08:00"/></div>
+    <div><label class="form-label">End</label><input class="inp" type="time" id="cls-end" value="09:00"/></div>
+  </div>
+  <div class="form-row"><label class="form-label">Subject Color</label>
+    <select class="inp" id="cls-subject">
+      <option value="med">Medicine</option>
+      <option value="surg">Surgery</option>
+      <option value="paed">Paediatrics</option>
+      <option value="og">Obs & Gynae</option>
+      <option value="fm">FM / Forensic</option>
+      <option value="cm">SPH & CM</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <button class="btn btn-primary" onclick="saveClass()">Add to Week</button>
+  </div>
+  <div class="form-row">
+    <button class="btn btn-ghost" onclick="closeSheets()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ ADD ROTATION SHEET ══ -->
+<div class="sheet" id="add-rotation-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Add Rotation</div>
+  <div class="form-row"><label class="form-label">Department</label>
+    <select class="inp" id="rot-dept">
+      <option value="Medicine">Medicine</option>
+      <option value="Surgery">Surgery</option>
+      <option value="Paediatrics">Paediatrics</option>
+      <option value="Obs & Gynae">Obs & Gynae</option>
+      <option value="Community Medicine">Community Medicine</option>
+      <option value="Forensic Medicine">Forensic Medicine</option>
+    </select>
+  </div>
+  <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><label class="form-label">Start Date</label><input class="inp" type="date" id="rot-start"/></div>
+    <div><label class="form-label">End Date</label><input class="inp" type="date" id="rot-end"/></div>
+  </div>
+  <div class="form-row"><label class="form-label">Group / Batch</label><input class="inp" id="rot-group" placeholder="e.g. Group A / Batch I" /></div>
+  <div class="form-row"><label class="form-label">Notes</label><input class="inp" id="rot-notes" placeholder="Ward, OPD, posting details…" /></div>
+  <div class="form-row">
+    <button class="btn btn-primary" onclick="saveRotation()">Save Rotation</button>
+  </div>
+  <div class="form-row">
+    <button class="btn btn-ghost" onclick="closeSheets()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ FOCUS LOG SHEET ══ -->
+<div class="sheet" id="focus-log-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Focus History</div>
+  <div id="focus-log-full" style="padding:0 20px 8px"></div>
+</div>
+
+</div><!-- #app -->
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const KEY = 'plnx_v1';
+let S = {
+  theme: 'dark',
+  events: {},        // { 'YYYY-MM-DD': [{id,title,start,end,subject,type,location}] }
+  classes: [],       // [{id,title,day,start,end,subject}]
+  rotations: [],     // [{id,dept,start,end,group,notes}]
+  focusLog: [],      // [{date,subject,duration,phase}]
+  focusTotalToday: 0,
+  pomodoro: { work: 25, break: 5 },
+  research: { title: '', moderator: '', tutor: '', checklist: {} }
+};
+
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY));
+    if (d) S = { ...S, ...d };
+  } catch(e) {}
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {}
+}
+load();
+applyTheme();
+
+// ═══════════════════════════════════════════════════════
+// SUBJECTS
+// ═══════════════════════════════════════════════════════
+const SUBJECTS = {
+  med:   { name: 'Medicine',    color: '#FF6B6B', cls: 'med' },
+  surg:  { name: 'Surgery',     color: '#50DCFF', cls: 'surg' },
+  paed:  { name: 'Paediatrics', color: '#30D158', cls: 'paed' },
+  og:    { name: 'OG',          color: '#BF5AF2', cls: 'og' },
+  fm:    { name: 'FM',          color: '#FFD60A', cls: 'fm' },
+  cm:    { name: 'SPH & CM',    color: '#5AC8FA', cls: 'cm' },
+  other: { name: 'Other',       color: 'rgba(255,255,255,.35)', cls: 'other' }
+};
+function subColor(k) { return (SUBJECTS[k]||SUBJECTS.other).color; }
+function subName(k)  { return (SUBJECTS[k]||SUBJECTS.other).name; }
+function subCls(k)   { return (SUBJECTS[k]||SUBJECTS.other).cls; }
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+let currentPage = 'today';
+function switchPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(name + '-page').classList.add('active');
+  btn.classList.add('active');
+  currentPage = name;
+  if (name === 'today') renderToday();
+  if (name === 'timetable') renderTimetable();
+  if (name === 'schedule') renderScheduleView();
+  if (name === 'rotations') renderRotations();
+  if (name === 'focus') renderFocusPage();
+}
+
+// ═══════════════════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════════════════
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', S.theme);
+  document.getElementById('theme-meta').setAttribute('content', S.theme === 'dark' ? '#FF6B6B' : '#FF6B6B');
+  const lbl = document.getElementById('theme-label');
+  if (lbl) lbl.textContent = S.theme === 'dark' ? 'Dark Mode' : 'Light Mode';
+}
+function toggleTheme() {
+  S.theme = S.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(); save(); showToast('Switched to ' + (S.theme === 'dark' ? 'Dark' : 'Light') + ' Mode');
+}
+
+// ═══════════════════════════════════════════════════════
+// SHEETS
+// ═══════════════════════════════════════════════════════
+function openSheet(id) {
+  document.getElementById('sheet-overlay').classList.add('show');
+  document.getElementById(id).classList.add('show');
+  if (id === 'focus-log-sheet') renderFullFocusLog();
+}
+function closeSheets() {
+  document.getElementById('sheet-overlay').classList.remove('show');
+  document.querySelectorAll('.sheet').forEach(s => s.classList.remove('show'));
+}
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ═══════════════════════════════════════════════════════
+// DATE HELPERS
+// ═══════════════════════════════════════════════════════
+function todayStr() {
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+function formatDate(d) {
+  return new Intl.DateTimeFormat('en-US', { weekday:'long', month:'long', day:'numeric' }).format(d);
+}
+function parseTimeToMin(t) {
+  const [h,m] = t.split(':').map(Number); return h*60+m;
+}
+function minToTime(m) {
+  const h = Math.floor(m/60), mm = m%60;
+  const ap = h >= 12 ? 'PM' : 'AM';
+  return ((h%12)||12) + ':' + String(mm).padStart(2,'0') + ' ' + ap;
+}
+
+let selectedDateStr = todayStr();
+let currentView = 'day';
+let monthViewDate = new Date();
+
+// ═══════════════════════════════════════════════════════
+// VIEW SWITCHING (Day/Week/Month)
+// ═══════════════════════════════════════════════════════
+function switchView(v) {
+  currentView = v;
+  ['day','week','month'].forEach(x => {
+    const el = document.getElementById(x+'-view');
+    if (el) el.style.display = x === v ? '' : 'none';
+    const btn = document.getElementById('vt-'+x);
+    if (btn) btn.classList.toggle('active', x === v);
+  });
+  if (v === 'day') renderToday();
+  if (v === 'week') renderWeekDash();
+  if (v === 'month') renderMonthDash();
+}
+
+// ═══════════════════════════════════════════════════════
+// WEEK DASHBOARD
+// ═══════════════════════════════════════════════════════
+function getAllEventsForDay(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const dayOfWeek = d.getDay(); // 0=Sun,1=Mon...
+  // Timetable classes for this weekday
+  const ttClasses = S.classes
+    .filter(c => parseInt(c.day) === dayOfWeek)
+    .map(c => ({ ...c, _fromTT: true }));
+  // Manual events
+  const manualEvs = (S.events[dateStr] || []).map(e => ({ ...e, _fromTT: false }));
+  // Merge & sort
+  return [...ttClasses, ...manualEvs].sort((a,b) => parseTimeToMin(a.start) - parseTimeToMin(b.start));
+}
+
+function renderWeekDash() {
+  const container = document.getElementById('week-dash-content');
+  container.innerHTML = '';
+  const today = new Date();
+  // Get the Monday of current week
+  const mon = new Date(today);
+  const day = mon.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  mon.setDate(today.getDate() + diff);
+
+  const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const todStr = todayStr();
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(mon);
+    d.setDate(mon.getDate() + i);
+    const ds = d.toISOString().slice(0,10);
+    const allEvs = getAllEventsForDay(ds);
+    const isToday = ds === todStr;
+
+    const row = document.createElement('div');
+    row.className = 'wd-day-row';
+
+    const header = document.createElement('div');
+    header.className = 'wd-day-header';
+    header.innerHTML = `
+      <div class="wd-day-name${isToday?' is-today':''}">${DAY_NAMES[d.getDay()]} <span style="font-weight:400;opacity:.5">${d.getDate()}</span></div>
+      <div class="wd-day-count">${allEvs.length ? allEvs.length + ' class' + (allEvs.length > 1 ? 'es':'') : 'Free'}</div>`;
+
+    const eventsDiv = document.createElement('div');
+    eventsDiv.className = 'wd-events' + (isToday ? ' open' : '');
+
+    if (allEvs.length === 0) {
+      eventsDiv.innerHTML = '<div style="padding:10px 14px;font-size:10px;color:var(--text3);font-family:monospace">No classes scheduled</div>';
+    } else {
+      allEvs.forEach(ev => {
+        const sc = subColor(ev.subject || (ev._fromTT ? ev.subject : 'other'));
+        eventsDiv.innerHTML += `<div class="wd-event-row">
+          <div class="wd-ev-dot" style="background:${sc}"></div>
+          <div class="wd-ev-title">${ev.title}</div>
+          <div class="wd-ev-time">${ev.start}</div>
+          <div class="wd-ev-type">${ev.type || ''}</div>
+        </div>`;
+      });
+    }
+
+    header.onclick = () => eventsDiv.classList.toggle('open');
+    row.appendChild(header);
+    row.appendChild(eventsDiv);
+    container.appendChild(row);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// MONTH DASHBOARD
+// ═══════════════════════════════════════════════════════
+function changeMonth(delta) {
+  monthViewDate = new Date(monthViewDate.getFullYear(), monthViewDate.getMonth() + delta, 1);
+  renderMonthDash();
+}
+
+function renderMonthDash() {
+  const year = monthViewDate.getFullYear();
+  const month = monthViewDate.getMonth();
+  const todStr = todayStr();
+
+  document.getElementById('month-title').textContent =
+    new Date(year, month, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  const grid = document.getElementById('month-grid');
+  grid.innerHTML = '';
+
+  // Day headers
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => {
+    const h = document.createElement('div');
+    h.className = 'mg-header';
+    h.textContent = d;
+    grid.appendChild(h);
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  // Empty cells
+  for (let i = 0; i < firstDay; i++) {
+    const emp = document.createElement('div');
+    emp.className = 'mg-day empty';
+    grid.appendChild(emp);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dt = new Date(year, month, d);
+    const ds = dt.toISOString().slice(0,10);
+    const allEvs = getAllEventsForDay(ds);
+    const isToday = ds === todStr;
+    const isSel = ds === selectedDateStr;
+
+    const cell = document.createElement('div');
+    cell.className = 'mg-day' + (isToday ? ' is-today' : '') + (isSel ? ' selected' : '');
+
+    const num = document.createElement('div');
+    num.className = 'mg-day-num';
+    num.textContent = d;
+    cell.appendChild(num);
+
+    if (allEvs.length > 0) {
+      const dots = document.createElement('div');
+      dots.className = 'mg-dots';
+      allEvs.slice(0, 3).forEach(ev => {
+        const dot = document.createElement('div');
+        dot.className = 'mg-dot';
+        dot.style.background = subColor(ev.subject || 'other');
+        dots.appendChild(dot);
+      });
+      cell.appendChild(dots);
+    }
+
+    cell.onclick = () => {
+      selectedDateStr = ds;
+      renderMonthDash();
+      renderMonthSelectedDay();
+    };
+    grid.appendChild(cell);
+  }
+
+  renderMonthSelectedDay();
+}
+
+function renderMonthSelectedDay() {
+  const container = document.getElementById('month-selected-day');
+  const allEvs = getAllEventsForDay(selectedDateStr);
+  const d = new Date(selectedDateStr + 'T12:00:00');
+  const label = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+
+  if (allEvs.length === 0) {
+    container.innerHTML = `<div class="msd-title">${label}</div><div style="font-size:11px;color:var(--text3);font-family:'Figtree',sans-serif">No classes — free day</div>`;
+    return;
+  }
+
+  container.innerHTML = `<div class="msd-title">${label}</div>` + allEvs.map(ev => `
+    <div class="msd-event">
+      <div class="wd-ev-dot" style="background:${subColor(ev.subject || 'other')}"></div>
+      <div class="wd-ev-title">${ev.title}</div>
+      <div class="wd-ev-time" style="font-size:9px;color:var(--text3);font-family:'Figtree',sans-serif">${ev.start}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// TODAY PAGE
+// ═══════════════════════════════════════════════════════
+function renderToday() {
+  renderDateStrip();
+  renderDateLabel();
+  renderTimeline();
+  renderTodayStats();
+  renderExamCountdown();
+}
+
+function renderDateStrip() {
+  const strip = document.getElementById('date-strip');
+  const today = new Date();
+  const todStr = todayStr();
+  strip.innerHTML = '';
+  for (let i = -3; i <= 6; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const ds = d.toISOString().slice(0,10);
+    const dayNames = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+    const chip = document.createElement('div');
+    chip.className = 'date-chip' + (ds === todStr ? ' today' : '') + (ds === selectedDateStr && ds !== todStr ? ' selected' : '');
+    if (ds === todStr && ds === selectedDateStr) chip.classList.add('today', 'selected');
+    chip.innerHTML = `<span class="day-name">${dayNames[d.getDay()]}</span><span class="day-num">${d.getDate()}</span>`;
+    chip.onclick = () => { selectedDateStr = ds; renderToday(); };
+    strip.appendChild(chip);
+  }
+}
+
+function renderDateLabel() {
+  const d = new Date(selectedDateStr + 'T12:00:00');
+  document.getElementById('today-date-label').textContent = formatDate(d);
+}
+
+function renderTodayStats() {
+  const events = getAllEventsForDay(selectedDateStr);
+  document.getElementById('stat-events').textContent = events.length;
+  // Focus minutes today
+  const todayLog = S.focusLog.filter(l => l.date === selectedDateStr);
+  const mins = todayLog.reduce((a, l) => a + l.duration, 0);
+  document.getElementById('stat-focus').textContent = mins >= 60 ? (mins/60).toFixed(1) + 'h' : mins + 'm';
+}
+
+function renderTimeline() {
+  const container = document.getElementById('planner-timeline');
+  // Merge timetable classes + manual events for this day
+  const events = getAllEventsForDay(selectedDateStr);
+  container.innerHTML = '';
+
+  const startHour = 7, endHour = 20;
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const isToday = selectedDateStr === todayStr();
+
+  if (events.length === 0) {
+    container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg><p>No classes. Add one with +</p></div>`;
+    return;
+  }
+
+  let nowInserted = false;
+  events.forEach((ev, i) => {
+    const startMin = parseTimeToMin(ev.start);
+    if (isToday && !nowInserted && nowMin < startMin) {
+      nowInserted = true;
+      const ni = document.createElement('div');
+      ni.className = 'now-indicator';
+      ni.innerHTML = `<div class="now-dot"></div><div class="now-line"></div><div class="now-time">${minToTime(nowMin)}</div>`;
+      container.appendChild(ni);
+    }
+
+    const block = document.createElement('div');
+    block.className = 'time-block fade-up';
+    block.style.animationDelay = (i * 0.05) + 's';
+    const sc = subCls(ev.subject);
+    const onclickFn = ev._fromTT
+      ? "deleteClassPrompt('" + ev.id + "')"
+      : "deleteEventPrompt('" + selectedDateStr + "','" + ev.id + "')";
+    const weeklyBadge = ev._fromTT
+      ? '<div style="position:absolute;bottom:6px;left:10px;font-size:7px;color:var(--text4);font-family:monospace;letter-spacing:.5px;text-transform:uppercase">weekly</div>'
+      : '';
+    block.innerHTML = `
+      <div class="tb-time">${ev.start}</div>
+      <div class="tb-connector"><div class="tb-dot" style="background:${subColor(ev.subject)}"></div><div class="tb-line"></div></div>
+      <div class="tb-content">
+        <div class="event-block bg-${sc} bc-${sc}" onclick="${onclickFn}">
+          <div class="event-title">${ev.title}</div>
+          <div class="event-meta">${ev.type||''} · ${ev.location || subName(ev.subject)}</div>
+          <div class="event-time-badge">${ev.start}–${ev.end}</div>
+          ${weeklyBadge}
+        </div>
+      </div>`;
+    container.appendChild(block);
+  });
+
+  if (isToday && !nowInserted) {
+    const ni = document.createElement('div');
+    ni.className = 'now-indicator';
+    ni.innerHTML = `<div class="now-dot"></div><div class="now-line"></div><div class="now-time">${minToTime(nowMin)}</div>`;
+    container.appendChild(ni);
+  }
+}
+
+function deleteEventPrompt(dateStr, id) {
+  if (!confirm('Remove this event?')) return;
+  S.events[dateStr] = (S.events[dateStr] || []).filter(e => e.id !== id);
+  save(); renderToday(); showToast('Event removed');
+}
+
+function saveEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  if (!title) { showToast('Please enter a title'); return; }
+  const ev = {
+    id: Date.now().toString(),
+    title,
+    start: document.getElementById('ev-start').value,
+    end: document.getElementById('ev-end').value,
+    subject: document.getElementById('ev-subject').value,
+    type: document.getElementById('ev-type').value,
+    location: document.getElementById('ev-location').value.trim()
+  };
+  if (!S.events[selectedDateStr]) S.events[selectedDateStr] = [];
+  S.events[selectedDateStr].push(ev);
+  save(); closeSheets(); renderToday();
+  document.getElementById('ev-title').value = '';
+  document.getElementById('ev-location').value = '';
+  showToast('✓ Event added');
+}
+
+function renderExamCountdown() {
+  const examDate = new Date('2026-06-04T08:00:00');
+  const now = new Date();
+  const diff = examDate - now;
+  if (diff <= 0) { document.getElementById('exam-countdown-card').style.display = 'none'; return; }
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const html = `
+    <div class="ec-unit"><div class="ec-num">${days}</div><div class="ec-lbl">Days</div></div>
+    <div class="ec-unit"><div class="ec-num">${hours}</div><div class="ec-lbl">Hours</div></div>
+    <div class="ec-unit"><div class="ec-num">${mins}</div><div class="ec-lbl">Mins</div></div>`;
+  document.getElementById('exam-countdown').innerHTML = html;
+  const ec2 = document.getElementById('exam-countdown-2');
+  if (ec2) ec2.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// TIMETABLE PAGE
+// ═══════════════════════════════════════════════════════
+const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri'];
+const TIME_SLOTS = [];
+for (let h = 7; h <= 18; h++) TIME_SLOTS.push(`${String(h).padStart(2,'0')}:00`);
+
+function renderTimetable() {
+  // Week header
+  const wh = document.getElementById('week-header');
+  const todayDay = new Date().getDay(); // 0=Sun
+  wh.innerHTML = '<div></div>' + DAYS_SHORT.map((d,i) => `<div class="wh-day${i===todayDay?' wh-today':''}">${d}</div>`).join('');
+
+  // Grid
+  const grid = document.getElementById('timetable-grid');
+  grid.innerHTML = '';
+
+  TIME_SLOTS.forEach((time, ti) => {
+    const row = document.createElement('div');
+    row.className = 'timetable-row';
+
+    const timeCell = document.createElement('div');
+    timeCell.className = 'tt-time';
+    timeCell.innerHTML = `<span>${time}</span>`;
+    row.appendChild(timeCell);
+
+    for (let d = 0; d < 6; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'tt-cell';
+      // Find classes for this slot
+      const cls = S.classes.filter(c => {
+        const cDay = parseInt(c.day);
+        const cStart = parseTimeToMin(c.start);
+        const cEnd = parseTimeToMin(c.end);
+        const slotMin = parseTimeToMin(time);
+        return cDay === d && slotMin >= cStart && slotMin < cEnd;
+      });
+      if (cls.length > 0) {
+        const c = cls[0];
+        const sc = subCls(c.subject);
+        const startMin = parseTimeToMin(c.start);
+        const slotMin = parseTimeToMin(time);
+        if (slotMin === startMin) {
+          const span = Math.ceil((parseTimeToMin(c.end) - startMin) / 60);
+          cell.style.background = `${subColor(c.subject)}22`;
+          cell.style.borderColor = subColor(c.subject);
+          cell.innerHTML = `<div class="tt-class-chip" onclick="deleteClassPrompt('${c.id}')">
+            <div class="cc-subject" style="color:${subColor(c.subject)}">${subName(c.subject)}</div>
+            <div class="cc-type">${c.start}–${c.end}</div>
+            <div class="cc-type" style="font-size:7px;opacity:.6">${c.title.length > 12 ? c.title.slice(0,12)+'…':c.title}</div>
+          </div>`;
+        } else {
+          cell.style.background = `${subColor(c.subject)}12`;
+          cell.style.borderColor = `${subColor(c.subject)}44`;
+        }
+      } else {
+        cell.onclick = () => {
+          document.getElementById('cls-day').value = d;
+          document.getElementById('cls-start').value = time;
+          const endH = String(Math.min(19, parseInt(time)+1)).padStart(2,'0');
+          document.getElementById('cls-end').value = endH + ':00';
+          openSheet('add-class-sheet');
+        };
+      }
+      row.appendChild(cell);
+    }
+    grid.appendChild(row);
+  });
+}
+
+function deleteClassPrompt(id) {
+  if (!confirm('Remove this class from timetable?')) return;
+  S.classes = S.classes.filter(c => c.id !== id);
+  save(); renderTimetable(); showToast('Class removed');
+}
+
+function saveClass() {
+  const title = document.getElementById('cls-title').value.trim();
+  if (!title) { showToast('Enter a title'); return; }
+  const cls = {
+    id: Date.now().toString(),
+    title,
+    day: document.getElementById('cls-day').value,
+    start: document.getElementById('cls-start').value,
+    end: document.getElementById('cls-end').value,
+    subject: document.getElementById('cls-subject').value
+  };
+  S.classes.push(cls);
+  save(); closeSheets(); renderTimetable();
+  document.getElementById('cls-title').value = '';
+  showToast('✓ Added to timetable');
+}
+
+function clearWeekPrompt() {
+  if (!confirm('Clear all timetable classes?')) return;
+  S.classes = []; save(); renderTimetable(); showToast('Timetable cleared');
+}
+
+// ═══════════════════════════════════════════════════════
+// ROTATIONS PAGE
+// ═══════════════════════════════════════════════════════
+const DEPT_SUBJECT = {
+  'Medicine': 'med', 'Surgery': 'surg', 'Paediatrics': 'paed',
+  'Obs & Gynae': 'og', 'Community Medicine': 'cm', 'Forensic Medicine': 'fm'
+};
+
+// Pre-built from the PDF for Group A (common reference)
+const DEFAULT_ROTATIONS = [
+  { id: 'r1', dept: 'Medicine', start: '2026-01-11', end: '2026-02-04', group: 'Group A (CBL)', notes: 'Medicine CBL in Hospital Wards/OPDs' },
+  { id: 'r2', dept: 'Surgery', start: '2026-02-05', end: '2026-02-28', group: 'Group A (CBL)', notes: 'Surgery posting' },
+  { id: 'r3', dept: 'Paediatrics', start: '2026-03-29', end: '2026-04-22', group: 'Group A (CBL)', notes: 'Paediatrics posting' },
+  { id: 'r4', dept: 'Obs & Gynae', start: '2026-04-23', end: '2026-05-18', group: 'Group A (CBL)', notes: 'OG posting' },
+];
+
+function renderRotations() {
+  renderSemesterProgress();
+  renderExamCountdown();
+  renderRotationList();
+  renderResearchPill();
+  renderRCTChecklist();
+}
+
+function renderSemesterProgress() {
+  const start = new Date('2026-01-11');
+  const end = new Date('2026-06-02');
+  const now = new Date();
+  const total = end - start;
+  const elapsed = Math.min(now - start, total);
+  const pct = Math.max(0, Math.min(100, (elapsed / total) * 100));
+  document.getElementById('sem-progress-bar').style.width = pct.toFixed(1) + '%';
+  document.getElementById('sem-progress-pct').textContent = pct.toFixed(0) + '%';
+  const daysLeft = Math.max(0, Math.ceil((end - now) / 86400000));
+  document.getElementById('days-remaining').textContent = daysLeft;
+}
+
+function renderResearchPill() {
+  const start = new Date('2026-03-01');
+  const end = new Date('2026-03-28');
+  const now = new Date();
+  const pill = document.getElementById('research-pill');
+  if (!pill) return;
+  if (now < start) { pill.textContent = 'Upcoming · March 2026'; pill.style.border = '1px solid var(--border)'; pill.style.color = 'var(--text3)'; }
+  else if (now <= end) { pill.textContent = 'Active'; pill.style.border = '1px solid var(--text2)'; pill.style.color = 'var(--text)'; }
+  else { pill.textContent = 'Completed'; pill.style.border = '1px solid var(--border)'; pill.style.color = 'var(--text3)'; }
+}
+
+// RCT Checklist phases
+const RCT_PHASES = [
+  { id:'p1', phase:'Pre-protocol', name:'Idea Generation & Topic Finalization', sub:'Define research question, PICO framework' },
+  { id:'p2', phase:'Pre-protocol', name:'Literature Review', sub:'PubMed, Cochrane, Google Scholar search' },
+  { id:'p3', phase:'Protocol', name:'Protocol Writing', sub:'Background, objectives, methods, outcome measures' },
+  { id:'p4', phase:'Protocol', name:'IEC / Ethics Committee Submission', sub:'Submit protocol for ethical approval' },
+  { id:'p5', phase:'Protocol', name:'IEC Approval Received', sub:'Obtain approval letter from ethics committee' },
+  { id:'p6', phase:'Protocol', name:'CTRI Registration', sub:'Register trial on Clinical Trials Registry – India' },
+  { id:'p7', phase:'Pre-trial', name:'Sample Size Calculation', sub:'Power analysis, statistical justification' },
+  { id:'p8', phase:'Pre-trial', name:'Randomization Plan', sub:'Allocation concealment, sequence generation' },
+  { id:'p9', phase:'Pre-trial', name:'Data Collection Tools', sub:'Case record form, questionnaire finalized' },
+  { id:'p10', phase:'Recruitment', name:'Patient Recruitment Begins', sub:'Screening, informed consent, enrollment' },
+  { id:'p11', phase:'Recruitment', name:'Enrollment Target Met', sub:'Required sample size recruited' },
+  { id:'p12', phase:'Intervention', name:'Intervention / Follow-up Complete', sub:'All arms completed per protocol' },
+  { id:'p13', phase:'Analysis', name:'Data Entry & Cleaning', sub:'Database locked, outliers checked' },
+  { id:'p14', phase:'Analysis', name:'Statistical Analysis', sub:'Primary & secondary endpoints analyzed' },
+  { id:'p15', phase:'Reporting', name:'Results Interpretation', sub:'Clinical significance & limitations discussed' },
+  { id:'p16', phase:'Reporting', name:'Manuscript Draft', sub:'IMRaD format, references (Vancouver)' },
+  { id:'p17', phase:'Reporting', name:'Moderator / Guide Review', sub:'Incorporate feedback, finalize draft' },
+  { id:'p18', phase:'Reporting', name:'Submission / Presentation', sub:'Journal submission or conference presentation' },
+];
+
+function saveResearchInfo() {
+  S.research = S.research || { title:'', moderator:'', tutor:'', checklist:{} };
+  const t = document.getElementById('rct-title');
+  const m = document.getElementById('rct-moderator');
+  const tu = document.getElementById('rct-tutor');
+  if (t) S.research.title = t.value;
+  if (m) S.research.moderator = m.value;
+  if (tu) S.research.tutor = tu.value;
+  save();
+}
+
+function toggleRCTItem(id) {
+  S.research = S.research || { title:'', moderator:'', tutor:'', checklist:{} };
+  S.research.checklist = S.research.checklist || {};
+  S.research.checklist[id] = !S.research.checklist[id];
+  save();
+  renderRCTChecklist();
+}
+
+function renderRCTChecklist() {
+  S.research = S.research || { title:'', moderator:'', tutor:'', checklist:{} };
+  const cl = document.getElementById('rct-checklist');
+  if (!cl) return;
+
+  // Load inputs
+  const t = document.getElementById('rct-title');
+  const m = document.getElementById('rct-moderator');
+  const tu = document.getElementById('rct-tutor');
+  if (t && !t.value) t.value = S.research.title || '';
+  if (m && !m.value) m.value = S.research.moderator || '';
+  if (tu && !tu.value) tu.value = S.research.tutor || '';
+
+  const done = RCT_PHASES.filter(p => S.research.checklist[p.id]).length;
+  const total = RCT_PHASES.length;
+  const pct = Math.round((done / total) * 100);
+
+  const bar = document.getElementById('rct-bar');
+  if (bar) bar.style.width = pct + '%';
+  const lbl = document.getElementById('rct-progress-label');
+  if (lbl) lbl.textContent = done + ' / ' + total + ' done';
+  const pctEl = document.getElementById('rct-bar-pct');
+  if (pctEl) pctEl.textContent = pct + '%';
+
+  let lastPhase = '';
+  cl.innerHTML = '';
+  RCT_PHASES.forEach(p => {
+    const isDone = !!S.research.checklist[p.id];
+    if (p.phase !== lastPhase) {
+      const sep = document.createElement('div');
+      sep.style.cssText = 'font-size:8px;font-weight:400;color:var(--text4);letter-spacing:2px;text-transform:uppercase;padding:10px 0 2px;font-family:monospace;border-top:' + (lastPhase ? '1px solid var(--border)' : 'none');
+      sep.textContent = p.phase;
+      cl.appendChild(sep);
+      lastPhase = p.phase;
+    }
+    const row = document.createElement('div');
+    row.className = 'rct-phase-row';
+    row.innerHTML = `
+      <div class="rct-phase-check${isDone?' done':''}" onclick="toggleRCTItem('${p.id}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="rct-phase-body">
+        <div class="rct-phase-name${isDone?' done-text':''}">${p.name}</div>
+        <div class="rct-phase-sub">${p.sub}</div>
+      </div>`;
+    cl.appendChild(row);
+  });
+}
+
+function renderRotationList() {
+  const list = document.getElementById('rotation-list');
+  const rotations = S.rotations.length > 0 ? S.rotations : DEFAULT_ROTATIONS;
+  if (rotations.length === 0) {
+    list.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><p>No rotations yet. Tap + to add.</p></div>`;
+    return;
+  }
+  list.innerHTML = '';
+  const now = new Date();
+  rotations.forEach(rot => {
+    const start = new Date(rot.start);
+    const end = new Date(rot.end);
+    const sk = DEPT_SUBJECT[rot.dept] || 'other';
+    const color = subColor(sk);
+    let status = 'upcoming', statusTxt = 'Upcoming';
+    if (now >= start && now <= end) { status = 'active'; statusTxt = 'Active'; }
+    else if (now > end) { status = 'done'; statusTxt = 'Done'; }
+    const total = end - start;
+    const elapsed = Math.min(now - start, total);
+    const pct = status === 'done' ? 100 : status === 'active' ? Math.max(0,(elapsed/total)*100) : 0;
+    const startFmt = start.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const endFmt = end.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const card = document.createElement('div');
+    card.className = 'rotation-card';
+    card.innerHTML = `
+      <div class="rc-header">
+        <div class="rc-dept">${rot.dept}</div>
+        <div class="rc-badge" style="color:var(--text${status==='active'?'':'3'})">${statusTxt}</div>
+      </div>
+      <div class="rc-dates">${startFmt} – ${endFmt} · ${rot.group}</div>
+      <div class="rc-progress"><div class="rc-prog-fill" style="width:${pct.toFixed(1)}%"></div></div>
+      <div class="rc-stats">
+        <div class="rc-stat"><div class="rc-stat-val">${pct.toFixed(0)}%</div><div class="rc-stat-lbl">Progress</div></div>
+        <div class="rc-stat"><div class="rc-stat-val">${Math.ceil((end-start)/86400000)}</div><div class="rc-stat-lbl">Total Days</div></div>
+        ${rot.notes ? `<div class="rc-stat" style="flex:1"><div class="rc-stat-val" style="font-size:10px;font-weight:400;color:var(--text3);font-family:'Figtree',sans-serif">${rot.notes}</div><div class="rc-stat-lbl">Notes</div></div>` : ''}
+      </div>`;
+    card.onclick = () => {
+      if (confirm('Remove this rotation?')) {
+        if (S.rotations.length > 0) {
+          S.rotations = S.rotations.filter(r => r.id !== rot.id);
+          save(); renderRotations();
+        } else showToast('Default rotations cannot be deleted');
+      }
+    };
+    list.appendChild(card);
+  });
+}
+
+function saveRotation() {
+  const dept = document.getElementById('rot-dept').value;
+  const start = document.getElementById('rot-start').value;
+  const end = document.getElementById('rot-end').value;
+  if (!start || !end) { showToast('Please select dates'); return; }
+  const rot = {
+    id: Date.now().toString(),
+    dept, start, end,
+    group: document.getElementById('rot-group').value.trim() || 'Group',
+    notes: document.getElementById('rot-notes').value.trim()
+  };
+  // On first custom rotation, clear defaults
+  if (S.rotations.length === 0) S.rotations = [];
+  S.rotations.push(rot);
+  save(); closeSheets(); renderRotations();
+  showToast('✓ Rotation saved');
+}
+
+// ═══════════════════════════════════════════════════════
+// FOCUS / POMODORO
+// ═══════════════════════════════════════════════════════
+let focusTimer = null;
+let focusRunning = false;
+let focusPhase = 'work'; // 'work' | 'break'
+let focusSecondsLeft = 25 * 60;
+let focusWorkMins = 25;
+let focusBreakMins = 5;
+let focusSessionCount = 0;
+let focusCurrentSubject = 'med';
+let focusSessionStart = null;
+const CIRCUMFERENCE = 2 * Math.PI * 110; // 691.15
+
+function renderFocusPage() {
+  renderSubjectChips();
+  renderStreakDots();
+  renderFocusLogPreview();
+  updateOrbDisplay();
+}
+
+function renderSubjectChips() {
+  const container = document.getElementById('subject-chips');
+  container.innerHTML = '';
+  Object.entries(SUBJECTS).forEach(([k, sub]) => {
+    if (k === 'other') return;
+    const chip = document.createElement('button');
+    chip.className = 'subj-chip' + (k === focusCurrentSubject ? ' selected' : '');
+    chip.textContent = sub.name;
+    chip.style.setProperty('--c', sub.color);
+    if (k === focusCurrentSubject) { chip.style.background = sub.color; chip.style.color = '#fff'; }
+    chip.onclick = () => { focusCurrentSubject = k; renderSubjectChips(); };
+    container.appendChild(chip);
+  });
+}
+
+function selectMode(el, work, brk) {
+  document.querySelectorAll('.fc-config-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  focusWorkMins = work; focusBreakMins = brk;
+  if (!focusRunning) { focusSecondsLeft = work * 60; focusPhase = 'work'; updateOrbDisplay(); }
+  S.pomodoro = { work, break: brk }; save();
+}
+
+function toggleFocus() {
+  if (focusRunning) { pauseFocus(); return; }
+  startFocus();
+}
+
+function startFocus() {
+  if (!focusRunning) focusSessionStart = Date.now();
+  focusRunning = true;
+  document.getElementById('fc-main').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Pause';
+  document.getElementById('fc-stop').style.display = 'flex';
+  document.getElementById('fc-skip').style.display = 'flex';
+  document.getElementById('orb-wrapper').closest('.focus-orb-container').classList.add('focus-active');
+  document.getElementById('focus-status-lbl').textContent = focusPhase === 'work' ? 'Focusing…' : 'Taking a break…';
+
+  focusTimer = setInterval(() => {
+    focusSecondsLeft--;
+    if (focusSecondsLeft <= 0) { phaseComplete(); return; }
+    updateOrbDisplay();
+  }, 1000);
+}
+
+function pauseFocus() {
+  focusRunning = false;
+  clearInterval(focusTimer);
+  document.getElementById('fc-main').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Resume';
+  document.getElementById('focus-status-lbl').textContent = 'Paused';
+}
+
+function stopFocus() {
+  clearInterval(focusTimer);
+  focusRunning = false;
+  logFocusSession();
+  focusPhase = 'work';
+  focusSecondsLeft = focusWorkMins * 60;
+  focusSessionCount = 0;
+  document.getElementById('fc-main').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Start Session';
+  document.getElementById('fc-stop').style.display = 'none';
+  document.getElementById('fc-skip').style.display = 'none';
+  document.getElementById('focus-status-lbl').textContent = 'Ready to begin';
+  document.getElementById('orb-wrapper').closest('.focus-orb-container').classList.remove('focus-active');
+  updateOrbDisplay(); renderFocusLogPreview(); renderStreakDots();
+}
+
+function skipPhase() { phaseComplete(); }
+
+function phaseComplete() {
+  clearInterval(focusTimer);
+  focusRunning = false;
+  if (focusPhase === 'work') {
+    logFocusSession();
+    focusSessionCount++;
+    focusPhase = 'break';
+    focusSecondsLeft = focusBreakMins * 60;
+    document.getElementById('focus-status-lbl').textContent = 'Break time!';
+    document.getElementById('orb-glow').classList.add('break');
+    document.getElementById('orb-ring').style.stroke = '#30D158';
+    vibrate();
+  } else {
+    focusPhase = 'work';
+    focusSecondsLeft = focusWorkMins * 60;
+    document.getElementById('orb-glow').classList.remove('break');
+    document.getElementById('orb-ring').style.stroke = 'var(--accent)';
+    document.getElementById('focus-status-lbl').textContent = 'Ready for next session';
+    vibrate();
+  }
+  updateOrbDisplay();
+  renderStreakDots();
+  document.getElementById('fc-main').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>' + (focusPhase === 'work' ? ' Next Session' : ' Start Break');
+  // Auto-start break
+  setTimeout(() => { if (!focusRunning) startFocus(); }, 800);
+}
+
+function logFocusSession() {
+  if (!focusSessionStart) return;
+  const elapsed = Math.round((Date.now() - focusSessionStart) / 60000);
+  if (elapsed < 1) return;
+  S.focusLog.unshift({ id: Date.now().toString(), date: todayStr(), subject: focusCurrentSubject, duration: elapsed, phase: 'work', time: new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}) });
+  S.focusLog = S.focusLog.slice(0, 100);
+  save(); renderFocusLogPreview();
+  focusSessionStart = null;
+}
+
+function updateOrbDisplay() {
+  const total = focusPhase === 'work' ? focusWorkMins * 60 : focusBreakMins * 60;
+  const pct = focusSecondsLeft / total;
+  const offset = CIRCUMFERENCE * (1 - pct);
+  document.getElementById('orb-ring').style.strokeDashoffset = offset;
+  const m = Math.floor(focusSecondsLeft / 60), s = focusSecondsLeft % 60;
+  document.getElementById('orb-time').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('orb-phase').textContent = focusRunning ? (focusPhase === 'work' ? 'Focus' : 'Break') : (focusPhase === 'work' ? 'Tap to begin' : 'Break');
+}
+
+function renderStreakDots() {
+  const container = document.getElementById('focus-streak');
+  container.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'streak-dot' + (i < focusSessionCount ? ' done' : '');
+    container.appendChild(dot);
+    if (i < 3) { const br = document.createElement('div'); br.className = 'streak-dot break-dot'; container.appendChild(br); }
+  }
+}
+
+function renderFocusLogPreview() {
+  const container = document.getElementById('focus-log-preview');
+  const todayLog = S.focusLog.filter(l => l.date === todayStr()).slice(0, 5);
+  if (todayLog.length === 0) { container.innerHTML = `<div style="text-align:center;padding:16px;color:var(--text3);font-size:14px">No sessions yet today</div>`; return; }
+  container.innerHTML = todayLog.map(l => `
+    <div class="fl-row">
+      <div class="fl-dot" style="background:${subColor(l.subject)}"></div>
+      <div class="fl-subject">${subName(l.subject)}</div>
+      <div class="fl-time">${l.time || ''}</div>
+      <div class="fl-dur">${l.duration}m</div>
+    </div>`).join('');
+}
+
+function renderFullFocusLog() {
+  const container = document.getElementById('focus-log-full');
+  if (S.focusLog.length === 0) { container.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text3);font-size:15px">No focus sessions recorded yet</div>`; return; }
+  // Group by date
+  const byDate = {};
+  S.focusLog.forEach(l => { if (!byDate[l.date]) byDate[l.date] = []; byDate[l.date].push(l); });
+  container.innerHTML = Object.keys(byDate).map(date => {
+    const d = new Date(date + 'T12:00:00');
+    const total = byDate[date].reduce((a,l) => a+l.duration,0);
+    const items = byDate[date].map(l => `<div class="fl-row"><div class="fl-dot" style="background:${subColor(l.subject)}"></div><div class="fl-subject">${subName(l.subject)}</div><div class="fl-time">${l.time||''}</div><div class="fl-dur">${l.duration}m</div></div>`).join('');
+    return `<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;display:flex;justify-content:space-between">${d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}<span>${total}m total</span></div>${items}</div>`;
+  }).join('');
+}
+
+function vibrate() {
+  if (navigator.vibrate) navigator.vibrate([50, 100, 50]);
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPORT / CLEAR
+// ═══════════════════════════════════════════════════════
+function exportData() {
+  const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'plnx-backup.json'; a.click();
+  URL.revokeObjectURL(url); showToast('Exported!');
+}
+
+function clearAllData() {
+  if (!confirm('Clear all PlnX data? This cannot be undone.')) return;
+  localStorage.removeItem(KEY);
+  S = { theme: S.theme, events: {}, classes: [], rotations: [], focusLog: [], pomodoro: {work:25,break:5}, research: {title:'',moderator:'',tutor:'',checklist:{}} };
+  save(); renderToday(); showToast('All data cleared');
+}
+
+
+// ═══════════════════════════════════════════════════════
+// SCHEDULE VIEW — DATA
+// ═══════════════════════════════════════════════════════
+
+// All SIS/SEMINAR/LABEX/SGD/LIF sessions from the PDF
+const PDF_SCHEDULE = {
+'2026-01-11':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-01-12':[{t:'08:00',type:'SIS',title:'Coronary heart disease II (ACS, MI, Angina)',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Abortion and medico-legal aspects',dept:'FM'},{t:'15:00',type:'LABEX',title:'Examination of weapons',dept:'FM'}],
+'2026-01-13':[{t:'08:00',type:'SIS',title:'Tracheo-esophageal fistula, Congenital Hypertrophic pyloric stenosis – Anatomy, types, clinical features, diagnosis and treatment',dept:'Surgery'},{t:'09:00',type:'SIS',title:'MTP Act and contraception',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Forensic Psychiatry Alcohol: Common psychiatric terminologies of medico-legal importance · Examination & certification of insanity · Medico-legal aspects of insanity (Criminal & civil responsibilities)',dept:'FM, Psy'}],
+'2026-01-14':[{t:'08:00',type:'SIS',title:'Hypertension complicating Pregnancy I',dept:'OG'},{t:'09:00',type:'SIS',title:'Acute Bacterial meningitis',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-01-15':[{t:'08:00',type:'SIS',title:'Acute Encephalitis',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Cardiac arrhythmias overview – common arrhythmia (atrial fibrillation) I',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise in Ward/OPD',dept:'M, OG, P & S'}],
+'2026-01-16':[{t:'08:00',type:'SIS',title:'Natural history of diseases',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Esophagitis, hiatus hernia, gastritis',dept:'Surgery'}],
+'2026-01-18':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-01-19':[{t:'08:00',type:'SIS',title:'Cardiac arrhythmias overview – common arrhythmia (atrial fibrillation) II',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Infant death I',dept:'FM'},{t:'15:00',type:'LABEX',title:'Museum specimen I',dept:'FM'}],
+'2026-01-20':[{t:'08:00',type:'SIS',title:'Acalasia cardia and carcinoma esophagus – Aetiopathology, clinical features, investigation, treatment and palliation',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Infant death II',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Medical illness due to climate change: Types of high altitude sickness · Pathophysiology · Clinical manifestations · Prevention and treatment',dept:'Int. Med'}],
+'2026-01-21':[{t:'08:00',type:'SIS',title:'Hypertension complicating Pregnancy II',dept:'OG'},{t:'09:00',type:'SIS',title:'Febrile seizure',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-01-22':[{t:'08:00',type:'SIS',title:'Urinary Tract infections',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Cardiomyopathy & Myocarditis',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-01-25':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-01-26':[{t:'08:00',type:'SIS',title:'Diseases of the pericardium',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Forensic psychiatry I',dept:'FM'},{t:'15:00',type:'LABEX',title:'Museum specimen II',dept:'FM'}],
+'2026-01-27':[{t:'08:00',type:'SIS',title:'Complication of peptic ulcer disease – gastric outlet obstruction, haemorrhage',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Forensic psychiatry II',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'HIV in Obstetrics/Gynaecology: Etiology & clinical features · Diagnosis · Investigation · Effects on pregnancy & neonate · Management · PMTCT programme',dept:'OG, CM'}],
+'2026-01-28':[{t:'08:00',type:'SIS',title:'Ectopic pregnancy',dept:'OG'},{t:'09:00',type:'SIS',title:'Hematuria and Glomerulonephritis',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-01-29':[{t:'08:00',type:'SIS',title:'Proteinuria and Nephrotic Syndrome',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Systemic hypertension, Disease of aorta I',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-01-30':[{t:'08:00',type:'SIS',title:'Principles of disease prevention & control of communicable diseases',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Carcinoma Stomach – Incidence, etiology, clinical features, sites, pathology, classification, staging, spread, diagnosis, treatment, complication',dept:'Surgery'}],
+'2026-02-01':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-02':[{t:'08:00',type:'SIS',title:'Systemic hypertension, Disease of aorta II',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Blood stains, seminal stains, hairs, fibers, body fluids, and trace evidence I',dept:'FM'},{t:'15:00',type:'LABEX',title:'Sexual offence – Examination of the victim',dept:'FM'}],
+'2026-02-03':[{t:'08:00',type:'SIS',title:'Cholelithiasis – Aetiology, clinical presentation, differential diagnosis, treatment, complications and Principles of laparoscopic surgery I',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Blood stains, seminal stains, hairs, fibers, body fluids, and trace evidence II',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Traumatic brain injury: Epidemiology & pathophysiology · Classification & clinical features · Investigation & emergency management · Monitoring a patient with head injury · Surgical management',dept:'Surgery, Radiology, MDGP'}],
+'2026-02-04':[{t:'08:00',type:'SIS',title:'Antepartum haemorrhage – Placenta previa and abruptio placentae',dept:'OG'},{t:'09:00',type:'SIS',title:'Management of generalized edema',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-05':[{t:'08:00',type:'SIS',title:'Acute Renal failure',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Overview of congenital heart disease',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-02-06':[{t:'08:00',type:'SIS',title:'Principles of disease prevention & control of non-communicable diseases',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Cholelithiasis – Principles of laparoscopic surgery II',dept:'Surgery'}],
+'2026-02-08':[{t:'08:00',type:'FHE',title:'Family Health Exercise – Visit to field',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-09':[{t:'08:00',type:'SIS',title:'Cardiac failure (CCF and acute pulmonary edema)',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Forensic science laboratory I',dept:'FM'},{t:'15:00',type:'LABEX',title:'Sexual offence – Examination of the accused',dept:'FM'}],
+'2026-02-10':[{t:'08:00',type:'SIS',title:'Cholelithiasis – Principles of laparoscopic surgery III',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Forensic science laboratory II',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Disorders of Weight & Gestation: Epidemiology of LBW & causes · Special problems of LBW · Prematurity vs IUGR · Nutrition & Management of LBW · Prevention and Follow up of LBW · LGA babies & its management',dept:'Paediatrics, CM, OG'}],
+'2026-02-11':[{t:'08:00',type:'SIS',title:'Pregnancy & Heart diseases',dept:'OG'},{t:'09:00',type:'SIS',title:'Chronic Renal failure',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-12':[{t:'08:00',type:'SIS',title:'Clinical approach to anemia in a child and Nutritional anemias',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Diseases of the aorta (aortic aneurysm / aortic dissection / aortitis)',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-02-13':[{t:'08:00',type:'SIS',title:'Investigation & control of epidemics',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Choledocholithiasis, CBD Strictures, Gall bladder neoplasm, malignant biliary obstruction, Periampullary carcinoma – Aetiology, clinical presentation, investigation and treatment I',dept:'Surgery'}],
+'2026-02-15':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-16':[{t:'08:00',type:'SIS',title:'Analysis of abdominal symptoms/signs',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Artifacts',dept:'FM'},{t:'15:00',type:'LABEX',title:'Toxicological specimens I',dept:'FM'}],
+'2026-02-17':[{t:'08:00',type:'SIS',title:'Choledocholithiasis, CBD Strictures, Gall bladder neoplasm, malignant biliary obstruction, Periampullary carcinoma II',dept:'Surgery'},{t:'09:00',type:'SIS',title:'General consideration I',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Environmental Health hazards: Environmental health & types of hazards · Physical & chemical hazards and their effect on health · Biological & radioactive hazards and their effect on health · Prevention and control',dept:'SPH & CM, FM, Radiology'}],
+'2026-02-18':[{t:'08:00',type:'SIS',title:'UTI in pregnancy, acute retention of urine',dept:'OG'},{t:'09:00',type:'SIS',title:'Bleeding disorders – ITP & hemophilia',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-19':[{t:'08:00',type:'SIS',title:'Hemolytic anemia & Thalassemia',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Interpretation of Liver function tests',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-02-20':[{t:'08:00',type:'SIS',title:'Surveillance & monitoring system in infectious diseases',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Choledocholithiasis, CBD Strictures, Gall bladder neoplasm, malignant biliary obstruction, Periampullary carcinoma III',dept:'Surgery'}],
+'2026-02-22':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-23':[{t:'08:00',type:'SIS',title:'Malabsorption syndrome',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'General consideration II',dept:'FM'},{t:'15:00',type:'LABEX',title:'Examination of a case of drunkenness',dept:'FM'}],
+'2026-02-24':[{t:'08:00',type:'SIS',title:'Cystic disease of liver (liver abscess – Amoebic and pyogenic), Hydatid disease of liver, liver tumours and secondaries I',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Corrosive poisons I',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Snake bite: Epidemiology of snake bite cases in Nepal · Identification of venomous and non-venomous snakes · Management of snake bite',dept:'FM, Int. Med, CM'}],
+'2026-02-25':[{t:'08:00',type:'SIS',title:'Diabetes complicating pregnancy',dept:'OG'},{t:'09:00',type:'SIS',title:'Introduction to various terminology & examination of Normal Newborn',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-02-26':[{t:'08:00',type:'SIS',title:'Care of normal newborn',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Peptic ulcer & H. Pylori infection',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-02-27':[{t:'08:00',type:'SIS',title:'Screening of disease and Diagnostic test',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Cystic disease of liver – liver abscess, Hydatid disease, liver tumours II',dept:'Surgery'}],
+'2026-03-01':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-02':[{t:'08:00',type:'SIS',title:'GI bleed (Upper and lower)',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Corrosive poisons II',dept:'FM'},{t:'15:00',type:'LABEX',title:'Toxicological specimen II',dept:'FM'}],
+'2026-03-04':[{t:'08:00',type:'SIS',title:'Obstetric shock',dept:'OG'},{t:'09:00',type:'SIS',title:'Identification of sick children and newborns',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-05':[{t:'08:00',type:'SIS',title:'Temperature control and hypothermia',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:"Ulcerative colitis & Crohn's diseases",dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-03-06':[{t:'08:00',type:'SIS',title:'Disinfection & disinfectants',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Acute pancreatitis – Definition, Causes, clinical features, scoring, management and complications',dept:'Surgery'}],
+'2026-03-08':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-09':[{t:'08:00',type:'SIS',title:'Acute & sub acute hepatitis (Acute fulminant hepatitis, DILI) Chronic hepatitis',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Non metallic poisoning (phosphorus, Iodine, Fluoride)',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-03-10':[{t:'08:00',type:'SIS',title:'Principles of surgical treatment for portal hypertension. Chronic pancreatitis – Definition, aetiopathogenesis, clinical features, investigation, treatment',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Metallic poisons I',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Heart Failure: Pathophysiology, definition and classification · Epidemiology and clinical manifestation · Diagnosis · Management of acute and chronic Heart Failure',dept:'Int. Medicine'}],
+'2026-03-11':[{t:'08:00',type:'SIS',title:'Preterm labor and PPROM',dept:'OG'},{t:'09:00',type:'SIS',title:'Respiratory distress syndrome',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-12':[{t:'08:00',type:'SIS',title:'LBW baby, Prematurity & LGA babies – Clinical approach & management',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Cirrhosis of liver',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-03-13':[{t:'08:00',type:'SIS',title:'Epidemiology of vaccine preventable diseases and its prevention',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Pancreatic malignancy (carcinoma head of pancreas and cystic neoplasms of pancreas)',dept:'Surgery'}],
+'2026-03-15':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-16':[{t:'08:00',type:'SIS',title:'Chronic pancreatitis',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Metallic poisons II',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-03-17':[{t:'08:00',type:'SIS',title:'Acute peritonitis – Aetiology, stages, clinical features, investigation, treatment. Intra abdominal abscess – Surgical anatomy, clinical features, investigation, treatment',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Insecticides and weed killers',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Hernia: Anatomy of inguinal and femoral canal · Definition and classification · Clinical features and investigations · Surgical management of inguinal and femoral hernia · Complications · Umbilical, paraumbilical and epigastric hernia',dept:'Surgery, Paed, Radiology'}],
+'2026-03-18':[{t:'08:00',type:'SIS',title:'Pregnancy with previous LSCS',dept:'OG'},{t:'09:00',type:'SIS',title:'Neonatal Septicemia',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-19':[{t:'08:00',type:'SIS',title:'Birth Asphyxia and Hypoxic Ischemic Encephalopathy',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Metabolic Associated Liver dysfunction (MAFLD)',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-03-20':[{t:'08:00',type:'SIS',title:'Epidemiology of rabies and its prevention',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Acute Appendicitis, Appendicular lump, carcinoid tumours – Anatomy, pathophysiology, investigation, differential diagnosis and treatment I',dept:'Surgery'}],
+'2026-03-22':[{t:'08:00',type:'FHE',title:'Family Health Exercise – Visit to field',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-23':[{t:'08:00',type:'SIS',title:'IBS (Irritable Bowel Syndrome)',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Vegetable irritants',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-03-24':[{t:'08:00',type:'SIS',title:'Acute Appendicitis, Appendicular lump, carcinoid tumours – II',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Animal poisons',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Shock: Definition, types & identification · Pathophysiology · Fluid and electrolyte management · Ionotropic support',dept:'Paediatrics'}],
+'2026-03-25':[{t:'08:00',type:'SIS',title:'Pregnancy in Rh negative mother',dept:'OG'},{t:'09:00',type:'SIS',title:'Neonatal Hyperbilirubinemia',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-26':[{t:'08:00',type:'SIS',title:'Metabolic diseases of newborn – hypocalcemia, hypoglycemia & management of babies born to diabetic mother',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Autoimmune Hepatitis',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-03-27':[{t:'08:00',type:'SIS',title:'Epidemiology and control of STDs and HIV',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Malignant ascites, Mesenteric lymphadenitis and cysts, retroperitoneal tumors',dept:'Surgery'}],
+'2026-03-29':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-03-30':[{t:'08:00',type:'SIS',title:'Overview of endocrinology',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Somniferous poisons',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-03-31':[{t:'08:00',type:'SIS',title:'Faecal fistula and stomas – Types, clinical features, investigation and treatment',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Inebriant poisons',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Epidemiology of cancer: Epidemiology of cancer · Cancer pattern and causes of cancer · Screening for cancer · Cancer control',dept:'SPH & CM, OG, Paed, Pathology, Surgery'}],
+'2026-04-01':[{t:'08:00',type:'SIS',title:'Intrauterine death',dept:'OG'},{t:'09:00',type:'SIS',title:'Neonatal Seizures',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-02':[{t:'08:00',type:'SIS',title:'Hematological diseases of Newborn (anemia, Polycythemia & Hemorrhagic disease)',dept:'Paediatrics'},{t:'09:00',type:'SIS',title:'Diseases of hypothalamus & pituitary',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-04-03':[{t:'08:00',type:'SIS',title:'Cultural determinants of health and diseases',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Surgical infections of intestines – Amoebiasis, Typhoid, Tuberculosis',dept:'Surgery'}],
+'2026-04-05':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-06':[{t:'08:00',type:'SIS',title:'Diabetes mellitus I',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Delerient poisons I',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-04-07':[{t:'08:00',type:'SIS',title:"Surgical aspects of ulcerative colitis and Crohn's disease",dept:'Surgery'},{t:'09:00',type:'SIS',title:'Delerient poisons II',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Alcohol: Various types of alcohols & its epidemiology · Metabolism of alcohol & its effect at different blood concentration · Examination of a drunk person for medico-legal purpose',dept:'FM, CM, GP & EM'}],
+'2026-04-08':[{t:'08:00',type:'SIS',title:'Post dated pregnancy',dept:'OG'},{t:'09:00',type:'SIS',title:'Common intrauterine Infections (Hepatitis B, CMV, congenital Syphilis)',dept:'Paediatrics'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-09':[{t:'08:00',type:'SIS',title:'Diabetes mellitus II',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-04-10':[{t:'08:00',type:'SIS',title:'Counseling – Definition, scope, applications',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Surgical aspects of diverticular diseases of intestines',dept:'Surgery'}],
+'2026-04-12':[{t:'08:00',type:'FHE',title:'Family Health Exercise – Visit to field',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-13':[{t:'08:00',type:'SIS',title:'The thyroid gland I',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Cardiac poisons',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-04-15':[{t:'08:00',type:'SIS',title:'Thyroid gland II',dept:'Int. Medicine'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-16':[{t:'08:00',type:'SIS',title:'The adrenal gland',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:"Intestinal Obstruction I – Acute intestinal obstruction in newborn and children, acute intussusceptions, midgut volvulus, Meckel's diverticulitis, megacolon and imperforate anus",dept:'Surgery'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-04-17':[{t:'08:00',type:'SIS',title:'Health problems associated with aging',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Intestinal Obstruction II – Types, etiology, pathophysiology, clinical features, clinical features of strangulation, diagnosis and treatment',dept:'Surgery'}],
+'2026-04-19':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-20':[{t:'08:00',type:'SIS',title:'The parathyroid gland',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'CNS depressant',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-04-21':[{t:'08:00',type:'SIS',title:'Intestinal Obstruction III – Acute large bowel obstruction (sigmoid volvulus, caecal volvulus, compound volvulus) and Adynamic obstruction',dept:'Surgery'},{t:'09:00',type:'SIS',title:'CNS stimulants',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Principles of management of peptic ulcer: Pathophysiology · Diagnostic investigation · Different medical management · Surgical management · Complications and its treatment',dept:'Surgery, Int. Medicine, Radiology'}],
+'2026-04-22':[{t:'09:00',type:'SIS',title:'Anorectal abscess, fistula-in-ano – Pathology, clinical features, types, investigation, treatment, complication, Prolapse rectum',dept:'Surgery'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-23':[{t:'08:00',type:'SIS',title:'Social aspects of geriatric population',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Osteoporosis & osteomalacia',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-04-24':[{t:'08:00',type:'SIS',title:'Obesity and metabolic syndrome',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Tumours of small and large intestine – Classification of polyps, benign and malignant tumours, etiology, clinical features, screening, staging, investigation and treatment',dept:'Surgery'}],
+'2026-04-26':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-27':[{t:'08:00',type:'SIS',title:'Water and electrolyte homeostasis (Sodium, Potassium, Calcium, Magnesium and Phosphate Homeostasis)',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Spinal poisons',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-04-28':[{t:'08:00',type:'SIS',title:'Tumours of rectum – Benign and malignant tumours, pathology, spread, staging, clinical features, investigation, differential diagnosis, treatment',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Asphyxiant poisons',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Nephrotic syndrome: Definition & clinical types · Pathological classification/investigation · Management · Complications and prognosis',dept:'Paediatrics'}],
+'2026-04-29':[{t:'08:00',type:'SIS',title:'Lipid and lipoprotein metabolism disorders',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Anal fissure, haemorrhoids, Pilonidal sinus – Anatomy, pathology, clinical features, grading, treatment, complication',dept:'Surgery'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-04-30':[{t:'08:00',type:'SIS',title:'Inherited metabolic disorders',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-05-03':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-04':[{t:'08:00',type:'SIS',title:'Physiology of Nutrition',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Food poisoning',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-05-05':[{t:'08:00',type:'SIS',title:'Anorectal abscess, fistula-in-ano – Pathology, clinical features, types, investigation, treatment, complication, Prolapse rectum',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Common household poisons',dept:'FM'},{t:'14:00',type:'SEMINAR',title:'Pneumoconiosis: Occupational lung disease and types of pneumoconiosis · Pathophysiology · Clinical features and management · Prevention and control',dept:'SPH & CM, Int. Med, Pathology, Radiology'}],
+'2026-05-06':[{t:'08:00',type:'SIS',title:'Micronutrients, Minerals & their Disease',dept:'Int. Medicine'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-07':[{t:'08:00',type:'SIS',title:'Disorders of platelets & vessel wall and coagulation',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Major geriatric problems and health interventions',dept:'SPH & CM'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-05-08':[{t:'08:00',type:'SIS',title:'Disorders of coagulation',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Anal canal tumours – Pathology, clinical features, investigation, treatment',dept:'Surgery'}],
+'2026-05-10':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-11':[{t:'08:00',type:'SIS',title:'Iron deficiency anaemia',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Medico legal aspects of drug abuse, addiction and drug trafficking',dept:'FM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-05-12':[{t:'08:00',type:'SIS',title:'Diseases of umbilicus and abdominal wall I – Inflammation of the umbilicus, umbilical fistula, neoplasm of the umbilicus, Burst abdomen, incisional hernia, divarication of rectus abdominis, neoplasm of the abdominal wall, gastroschisis and omphalocele',dept:'Surgery'},{t:'09:00',type:'SIS',title:'Megaloblastic anaemia',dept:'Int. Medicine'},{t:'14:00',type:'SEMINAR',title:'Mushroom poisoning: Classification of toxic & non-toxic mushrooms & epidemiology · Clinical features of mushroom poisoning · Management & postmortem findings in fatal cases of mushroom poisoning',dept:'FM, CM, Int. Med'}],
+'2026-05-13':[{t:'08:00',type:'SIS',title:'Hypoplastic & aplastic anaemia',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Diseases of umbilicus and abdominal wall II',dept:'Surgery'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-14':[{t:'08:00',type:'SIS',title:'Haemolytic anaemias',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-05-15':[{t:'08:00',type:'SIS',title:'Occupational disease – Introduction, classification and its legal aspects',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'AML, ALL',dept:'Int. Medicine'}],
+'2026-05-17':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-18':[{t:'08:00',type:'SIS',title:'Myeloproliferative diseases (CML)',dept:'Int. Medicine'},{t:'09:00',type:'SIS',title:'Occupational cancers, Occupational dermatitis, Occupational hazards in agricultural and industrial workers',dept:'SPH & CM'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-05-19':[{t:'08:00',type:'SIS',title:'Prevention and control of occupational diseases',dept:'SPH & CM'},{t:'09:00',type:'SIS',title:'Lymphoreticular diseases (including CLL)',dept:'Int. Medicine'},{t:'14:00',type:'SEMINAR',title:'Fluid & electrolyte disorders in children: Types of fluid · Fluid & electrolyte management in newborn · Fluid & electrolyte management in infants & children · Management of common acid-base disorders',dept:'Paediatrics'}],
+'2026-05-20':[{t:'08:00',type:'SIS',title:'Plasma cell disorder (including Myeloma)',dept:'Int. Medicine'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-21':[{t:'08:00',type:'SIS',title:'Blood transfusion',dept:'Int. Medicine'},{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-05-22':[{t:'08:00',type:'SIS',title:'Principles of management of hematological disease',dept:'Int. Medicine'}],
+'2026-05-24':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-25':[{t:'08:00',type:'SIS',title:'Analysis of signs & symptoms of Blood Disease',dept:'Int. Medicine'},{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-05-26':[{t:'08:00',type:'SIS',title:'Sickle cell anemia & Thalassemia',dept:'Int. Medicine'},{t:'14:00',type:'SEMINAR',title:'Hypertension: Epidemiology · Diagnostic criterion and population based screening · Risk factors · Population based prevention',dept:'SPH & CM, Paed, Phy, GP & EM, Int. Med'}],
+'2026-05-27':[{t:'08:00',type:'SIS',title:'Geriatric Problems',dept:'Int. Medicine'},{t:'14:00',type:'TIMISS',title:'Time for missed SIS / Self Study',dept:''},{t:'15:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-05-28':[{t:'14:00',type:'SGD',title:'Small Group Discussion – Group wise',dept:'M, OG, P & S'}],
+'2026-05-31':[{t:'08:00',type:'LIF',title:'Visit to district hospital, Inaruwa / BPKIHS + SGD',dept:'CM, M, OG, P, S'},{t:'14:00',type:'PMD',title:'Post Mortem Demonstration / Self Study',dept:'FM'}],
+'2026-06-01':[{t:'14:00',type:'LABEX',title:'Lab exercise',dept:'FM'}],
+'2026-06-02':[{t:'14:00',type:'SEMINAR',title:'Recurrent pregnancy loss: Definition and etiopathogenesis · Clinical features and recurrent abortion · Lab investigations · Medical Management · Surgical Management',dept:'OG, SPH & CM, Int. Med.'}]
+};
+
+// Excel study tasks (topics to study each day)
+const EXCEL_TASKS = {
+'2026-02-20':["❌  Missed — Rearranged into upcoming days"],
+'2026-02-22':["❌  Missed — Rearranged into upcoming days"],
+'2026-02-23':["TEF - CHPS", "Abortion & Medicolegal", "Systemic HTN & Aorta D/s", "Act Bact Meningitis"],
+'2026-02-24':["Seminar Topic", "HTN in Preg", "Investication & Control of Epidemics", "Esophagitis, Hiatus Hernia, Gastritis"],
+'2026-02-25':["MTP", "Congenital Heart D/s", "Act Encephalitis", "Antepartum Haemorrhage"],
+'2026-02-26':["D/s Prevention & Control", "Acalasia cardia and carcinoma esophagus", "Infant Death", "CAD"],
+'2026-02-27':["Febrle Seizures", "Ectopic Pregnancy", "Nat History Of D/s", "Cholelithiasis & Laproscopy 1"],
+'2026-02-28':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-03-01':["UTI", "Pregnancy & Heart D/s", "Proteinuria & NS", "UTI (OG)", "Hematuria & GMNR", "Diabetes In preg"],
+'2026-03-02':["Anemia in Child", "Obs Shock", "M/t Edema", "Preterm & PPROM", "Acute Renal Failure", "Preg w/s LSCS"],
+'2026-03-03':["Chronix Renal Failure", "Rh -ve Mother Preg", "Bleeding D/o (Ped)", "IUD", "Hemolytic Anemia & Thalessemia", "Post-Dated Pregnancy"],
+'2026-03-04':["Newborn", "Care of New Born", "Sick Child & Newborn", "Temp Cntrl & Hypothermia", "Respi Distress Syndrome"],
+'2026-03-05':["LBW Baby, Premature, LGA", "Neonatal Septicemia", "Birth Asphyxia & HIE", "Neonatal Hyper Bilirubinemia", "Metabolic D/s of Newborn"],
+'2026-03-06':["Neonatal Seizures", "Hematological D/s of Newborns", "Common Intra Uterine Infn", "Anorectal abscess, fistula-in-ano"],
+'2026-03-08':["FM Psy", "Cardiac Arrythmias", "S: Climate Change", "Cholelithiasis & Laproscopy 2"],
+'2026-03-09':["S:Forensic Alcohol Psy", "Cardiomyo - Myocarditis", "Surveilance & Monitoring", "Gall Bladder Diseases 1", "Blood Stains & Evi"],
+'2026-03-10':["Seminar Topic", "Pericardial D/s", "Screening & D/x Test", "Gall Bladder Diseases 2", "Forensic Science"],
+'2026-03-11':["Cardiac Failure", "Disinfection", "Carcinoma Stomach", "General Considerations", "Abdmonal Signs"],
+'2026-03-12':["Epid of Vaccine Prev D/s", "Complication of PUD", "Corrosive Poisons 1", "GI Bleed", "Rabies"],
+'2026-03-13':["Liver D/s 1", "Corrosive Poisons 2", "MalabS", "Epid & Control of STDs & HIV", "Liver D/s 2"],
+'2026-03-14':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-03-15':["Artifacts", "LFT", "Cultural Determinants", "Acute Pancreatitis"],
+'2026-03-16':["Metallic Poisons 1", "Peptic Ulcer & H. pylori", "Counseling", "Chr Pancreatitis & PHTN", "Non-Metallic Poisons"],
+'2026-03-17':["Seminar Topic", "Ulcerative Colitis & Crohn's D/s", "Health Probs w/ Aging", "Pancreatic Malignancy", "Insecticides & Weed Killers"],
+'2026-03-18':["Acute & Sub-acute Hepatitis", "Social Aspect of Geriatric", "Acute Peritonitis & IAA", "Metallic Poisons 2", "Liver Cirrhosis"],
+'2026-03-19':["Geratric Prob & Intervention", "Appendicular D/s 1", "Vegetable Irritants", "Chr Pancreatitis", "Occupational D/s 1"],
+'2026-03-20':["Appendicular D/s 2", "Animal Poisons", "MAFLD", "Occupational D/s 2", "Malig Ascites, Mesent Lymph & Cyst, Retroperit Tumor"],
+'2026-03-21':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-03-22':["Somniferous Poisons", "IBS", "Occupational D/s 3", "Fecal Fistula & Stoma"],
+'2026-03-23':["Inebriant Poisons", "Autoimmune Hepatitis", "Surgical Inf of Intestines", "Delerient Poisons 1", "Endocrino Overview"],
+'2026-03-24':["Seminar Topic", "Surgery of Ulcerative Col & Crohn's D/s", "Delerient Poisons 2", "D/s of hypothalamus & Pituitary", "Surgery of Diverticular D/s of Intestines"],
+'2026-03-25':["Cardiac Poisons", "DM 1", "Intestinal Obstruction 1", "CNS Depressant", "DM 2"],
+'2026-03-26':["Intestinal Obstruction 2", "CNS Stimulant", "Thyroid Gland 1", "Intestinal Obstruction 3", "Spinal Poisons"],
+'2026-03-27':["Thyroid Gland 2", "SI & LI Tumors", "Asphyxiant poisons", "Adrenal Gland", "Tumor of Rectum"],
+'2026-03-28':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-03-29':["Food Poisoning", "PTH Gland", "Anorectal abscess, fistula-in-ano (S)"],
+'2026-03-30':["Common Household Poisons", "Obesity & Metabolic Syndrome", "Anal Canal Tumors"],
+'2026-03-31':["Seminar Topic", "MLA of Drugs", "Osteoporosis & Osteomalacia"],
+'2026-04-01':["D/s of Umblicus & Abd Wall 1", "Water & Electrolyte Homeostasis", "D/s of Umblicus & Abd Wall 2"],
+'2026-04-02':["Nutrition Physiology", "D/o of Platelets & Vessel Wall & Coagulation", "Coagulation D/o"],
+'2026-04-03':["Micronutrient, Minerals & AMP", "Hemolytic Anemia", "Hypoplastic & Aplastic Anemia"],
+'2026-04-04':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-04-05':["IDA", "MegaBlast Anemia", "AML, ALL"],
+'2026-04-06':["Myeloproliferative D/s (CML)", "Geratric Prob & Intervention", "Lymphoreticular D/s (CLL)"],
+'2026-04-07':["Seminar Topic", "Plasma Cell D/o & Myeloma", "Blood Transfusion"],
+'2026-04-08':["Mgt of Hematological D/s", "Blood D/s Symptoms Analysis", "Sickle Cell A & Thalassemia"],
+'2026-04-11':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-04-13':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-14':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-15':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-16':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-17':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-18':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-19':["🎉  Nepali New Year Holiday — Rest & Enjoy!"],
+'2026-04-21':["Seminar Topic"],
+'2026-04-25':["📚  Saturday — Revision, Backlog & Rest"],
+'2026-04-28':["Seminar Topic"],
+'2026-05-01':["🔁  REVISION — Exams start June 4"],
+'2026-05-02':["🔁  REVISION — Exams start June 4"],
+'2026-05-03':["🔁  REVISION — Exams start June 4"],
+'2026-05-04':["🔁  REVISION — Exams start June 4"],
+'2026-05-05':["🔁  REVISION — Exams start June 4"],
+'2026-05-06':["🔁  REVISION — Exams start June 4"],
+'2026-05-07':["🔁  REVISION — Exams start June 4"],
+'2026-05-08':["🔁  REVISION — Exams start June 4"],
+'2026-05-09':["🔁  REVISION — Exams start June 4"],
+'2026-05-10':["🔁  REVISION — Exams start June 4"],
+'2026-05-11':["🔁  REVISION — Exams start June 4"],
+'2026-05-12':["🔁  REVISION — Exams start June 4"],
+'2026-05-13':["🔁  REVISION — Exams start June 4"],
+'2026-05-14':["🔁  REVISION — Exams start June 4"],
+'2026-05-15':["🔁  REVISION — Exams start June 4"],
+'2026-05-16':["🔁  REVISION — Exams start June 4"],
+'2026-05-17':["🔁  REVISION — Exams start June 4"],
+'2026-05-18':["🔁  REVISION — Exams start June 4"],
+'2026-05-19':["🔁  REVISION — Exams start June 4"],
+'2026-05-20':["🔁  REVISION — Exams start June 4"],
+'2026-05-21':["🔁  REVISION — Exams start June 4"],
+'2026-05-22':["🔁  REVISION — Exams start June 4"],
+'2026-05-23':["🔁  REVISION — Exams start June 4"],
+'2026-05-24':["🔁  REVISION — Exams start June 4"],
+'2026-05-25':["🔁  REVISION — Exams start June 4"],
+'2026-05-26':["🔁  REVISION — Exams start June 4"],
+'2026-05-27':["🔁  REVISION — Exams start June 4"],
+'2026-05-28':["🔁  REVISION — Exams start June 4"],
+'2026-05-29':["🔁  REVISION — Exams start June 4"],
+'2026-05-30':["🔁  REVISION — Exams start June 4"],
+'2026-05-31':["🔁  REVISION — Exams start June 4"],
+'2026-06-01':["🔁  REVISION — Exams start June 4"],
+'2026-06-02':["🔁  REVISION — Exams start June 4"],
+'2026-06-03':["🔁  REVISION — Exams start June 4"],
+};
+
+
+// Holidays
+const HOLIDAYS = {
+'2026-01-23':'🪔 Swasthani Puja — Public Holiday',
+'2026-03-03':'🎨 Holi — Public Holiday (Falgun 19, 2082)',
+'2026-04-14':'🎉 Nepali New Year — Public Holiday (Baisakh 1, 2083)',
+'2026-05-01':'👷 Labour Day — Public Holiday (Baisakh 18, 2083)'
+};
+
+const TYPE_STYLE = {
+  SIS:    { color:'rgba(255,255,255,.8)',  bg:'rgba(255,255,255,.05)' },
+  SEMINAR:{ color:'#BF5AF2',              bg:'rgba(191,90,242,.08)' },
+  LABEX:  { color:'#FFD60A',              bg:'rgba(255,214,10,.07)' },
+  SGD:    { color:'#30D158',              bg:'rgba(48,209,88,.07)' },
+  LIF:    { color:'#5AC8FA',              bg:'rgba(90,200,250,.07)' },
+  FHE:    { color:'#5AC8FA',              bg:'rgba(90,200,250,.07)' },
+  PMD:    { color:'#FF453A',              bg:'rgba(255,69,58,.06)' },
+  TIMISS: { color:'rgba(200,200,200,.6)', bg:'rgba(200,200,200,.04)' },
+  CBL:    { color:'#FF9F0A',              bg:'rgba(255,159,10,.07)' }
+};
+
+let schedCurrentDate = todayStr();
+let schedCurrentTab = 'sis';
+
+// ═══════════════════════════════════════════════════════
+// SCHEDULE VIEW — RENDER
+// ═══════════════════════════════════════════════════════
+function renderScheduleView() {
+  renderSchedDateStrip();
+  renderSchedContent();
+}
+
+function renderSchedDateStrip() {
+  const strip = document.getElementById('sched-date-strip');
+  strip.innerHTML = '';
+  const DAY = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun'];
+  const base = new Date(schedCurrentDate + 'T12:00:00');
+  const todStr = todayStr();
+  for (let i = -5; i <= 12; i++) {
+    const d = new Date(base); d.setDate(base.getDate() + i);
+    const ds = d.toISOString().slice(0,10);
+    if (ds < '2026-01-11' || ds > '2026-06-04') continue;
+    const chip = document.createElement('div');
+    const isT = ds === todStr, isSel = ds === schedCurrentDate;
+    chip.className = 'date-chip' + (isT ? ' today' : '') + (isSel && !isT ? ' selected' : '');
+    chip.innerHTML = `<span class="day-name">${DAY[d.getDay()]}</span><span class="day-num">${d.getDate()}</span>`;
+    chip.onclick = () => { schedCurrentDate = ds; renderSchedDateStrip(); renderSchedContent(); };
+    strip.appendChild(chip);
+  }
+  // scroll selected chip into view
+  setTimeout(() => {
+    const sel = strip.querySelector('.today, .selected');
+    if (sel) sel.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+  }, 60);
+}
+
+function switchSchedTab(tab) {
+  schedCurrentTab = tab;
+  ['sis','tasks'].forEach(t => {
+    document.getElementById('sched-'+t+'-wrap').style.display = t === tab ? '' : 'none';
+    document.getElementById('sst-'+t).classList.toggle('active', t === tab);
+  });
+  renderSchedContent();
+}
+
+function renderSchedContent() {
+  if (schedCurrentTab === 'sis') renderSIS();
+  else renderTasks();
+}
+
+function renderSIS() {
+  const wrap = document.getElementById('sched-sis-wrap');
+  wrap.innerHTML = '';
+  let ds = schedCurrentDate;
+  let d = new Date(ds + 'T12:00:00');
+
+  // Holiday?
+  if (HOLIDAYS[ds]) {
+    wrap.innerHTML = `<div class="sched-banner"><div class="sched-banner-icon">${HOLIDAYS[ds].split(' ')[0]}</div><div class="sched-banner-text">${HOLIDAYS[ds].slice(2)}</div></div>`;
+    // Show next day's sessions below
+    const nd = new Date(d); nd.setDate(d.getDate()+1);
+    ds = nd.toISOString().slice(0,10);
+    d = nd;
+  }
+  // Saturday - show weekend note + Monday's upcoming
+  if (d.getDay() === 6) {
+    wrap.innerHTML += `<div class="sched-banner" style="margin-bottom:8px"><div class="sched-banner-icon">📚</div><div class="sched-banner-text" style="font-size:10px">Saturday · Revision & Rest<br><span style="opacity:.5;font-size:9px">Showing Monday's sessions below</span></div></div>`;
+    // Find next Monday
+    const mon = new Date(d); mon.setDate(d.getDate()+2);
+    ds = mon.toISOString().slice(0,10);
+    d = mon;
+  }
+  // Research period note
+  if (ds >= '2026-03-01' && ds <= '2026-03-28') {
+    const rb = document.createElement('div');
+    rb.className = 'sched-banner';
+    rb.style.marginBottom = '8px';
+    rb.innerHTML = `<div class="sched-banner-icon">🔬</div><div class="sched-banner-text" style="font-size:10px;opacity:.7">Research Project Work period (1–28 March)</div>`;
+    wrap.appendChild(rb);
+  }
+  // Elective posting note
+  if (ds >= '2026-05-20' && ds <= '2026-06-02') {
+    const eb = document.createElement('div');
+    eb.className = 'sched-banner';
+    eb.style.marginBottom = '8px';
+    eb.innerHTML = `<div class="sched-banner-icon">🏥</div><div class="sched-banner-text" style="font-size:10px;opacity:.7">2nd Elective Posting period (20 May – 2 June)</div>`;
+    wrap.appendChild(eb);
+  }
+
+  const sessions = PDF_SCHEDULE[ds];
+  if (!sessions || sessions.length === 0) {
+    wrap.innerHTML += `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p>No scheduled sessions for this day</p></div>`;
+    return;
+  }
+
+  sessions.forEach((sess, idx) => {
+    const st = TYPE_STYLE[sess.type] || { color: 'rgba(255,255,255,.5)', bg: 'rgba(255,255,255,.04)' };
+    const card = document.createElement('div');
+    card.className = 'sc-session';
+    card.id = `sc-${ds}-${idx}`;
+    card.innerHTML = `
+      <div class="sc-session-row" onclick="toggleSCSession('sc-${ds}-${idx}')">
+        <div class="sc-time">${sess.t}</div>
+        <div class="sc-badge" style="color:${st.color};border-color:${st.color}44;background:${st.bg}">${sess.type}</div>
+        <div class="sc-body">
+          <div class="sc-title">${sess.title}</div>
+          ${sess.dept ? `<div class="sc-dept">${sess.dept}</div>` : ''}
+        </div>
+        <svg class="sc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="sc-detail">
+        <div class="sc-detail-text">${sess.title}</div>
+        ${sess.dept ? `<div style="margin-top:6px;font-size:8px;color:var(--text4);font-family:'Figtree',sans-serif;letter-spacing:1px;text-transform:uppercase">${sess.dept}</div>` : ''}
+      </div>`;
+    wrap.appendChild(card);
+  });
+}
+
+function toggleSCSession(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+function renderTasks() {
+  const wrap = document.getElementById('sched-tasks-wrap');
+  wrap.innerHTML = '';
+  let ds = schedCurrentDate;
+  let d = new Date(ds + 'T12:00:00');
+
+  const tasks = EXCEL_TASKS[ds];
+  if (!tasks || tasks.length === 0) {
+    wrap.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/></svg><p>No study tasks listed for this day</p></div>`;
+    return;
+  }
+  // Check if it's a special banner day (emoji prefix)
+  const BANNER_EMOJIS = ['❌','📚','🎉','🔁'];
+  if (tasks.length === 1 && BANNER_EMOJIS.some(e => tasks[0].startsWith(e))) {
+    const icon = tasks[0].charAt(0);
+    const text = tasks[0].slice(2).trim();
+    wrap.innerHTML = `<div class="sched-banner"><div class="sched-banner-icon">${icon}</div><div class="sched-banner-text">${text}</div></div>`;
+    return;
+  }
+
+  const storKey = 'tasks_' + ds;
+  const done = JSON.parse(localStorage.getItem(storKey) || '{}');
+  const doneCount = tasks.filter((_, i) => done[i]).length;
+  const pct = Math.round((doneCount / tasks.length) * 100);
+
+  const card = document.createElement('div');
+  card.className = 'task-card';
+  const dl = new Date(ds + 'T12:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+  card.innerHTML = `
+    <div class="task-card-header">
+      <div class="task-card-label">${dl} — Study Topics</div>
+    </div>
+    <div class="task-progress-row">
+      <div class="task-prog-bar"><div class="task-prog-fill" id="tpf-${ds}" style="width:${pct}%"></div></div>
+      <div class="task-prog-label" id="tpl-${ds}">${doneCount}/${tasks.length}</div>
+    </div>`;
+
+  tasks.forEach((task, i) => {
+    const isDone = !!done[i];
+    const row = document.createElement('div');
+    row.className = 'task-item';
+    row.onclick = () => toggleTask(ds, i, tasks.length);
+    row.innerHTML = `
+      <div class="task-checkbox${isDone ? ' done' : ''}" id="tcb-${ds}-${i}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="task-label${isDone ? ' done' : ''}" id="tlb-${ds}-${i}">${task}</div>`;
+    card.appendChild(row);
+  });
+
+  wrap.appendChild(card);
+}
+
+function toggleTask(ds, idx, total) {
+  const key = 'tasks_' + ds;
+  const done = JSON.parse(localStorage.getItem(key) || '{}');
+  done[idx] = !done[idx];
+  localStorage.setItem(key, JSON.stringify(done));
+  const cb = document.getElementById(`tcb-${ds}-${idx}`);
+  const lb = document.getElementById(`tlb-${ds}-${idx}`);
+  if (cb) cb.classList.toggle('done', !!done[idx]);
+  if (lb) lb.classList.toggle('done', !!done[idx]);
+  // update progress
+  const doneCount = Object.values(done).filter(Boolean).length;
+  const pct = Math.round((doneCount / total) * 100);
+  const pf = document.getElementById(`tpf-${ds}`);
+  const pl = document.getElementById(`tpl-${ds}`);
+  if (pf) pf.style.width = pct + '%';
+  if (pl) pl.textContent = `${doneCount}/${total}`;
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+renderToday();
+renderSubjectChips();
+renderStreakDots();
+updateOrbDisplay();
+// Init month date
+monthViewDate = new Date();
+
+// Exam countdown clock
+setInterval(renderExamCountdown, 60000);
+
+// Service Worker (PWA)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/PlnX/sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
